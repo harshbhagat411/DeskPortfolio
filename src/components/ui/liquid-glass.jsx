@@ -18,10 +18,14 @@ const GlassDock = ({ icons }) => {
               }}
               title={item.label}
             >
-              <item.icon 
-                size={30} 
-                strokeWidth={1.5} 
-              />
+              {item.customIcon ? (
+                <item.customIcon size={30} className="overflow-hidden" />
+              ) : (
+                <item.icon 
+                  size={30} 
+                  strokeWidth={1.5} 
+                />
+              )}
             </div>
 
             {index === 0 ? (

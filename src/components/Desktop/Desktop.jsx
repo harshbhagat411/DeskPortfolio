@@ -12,12 +12,22 @@ import AboutApp from '../../screens/AboutApp/AboutApp';
 import ContactApp from '../../screens/ContactApp/ContactApp';
 import ResumeApp from '../../screens/ResumeApp/ResumeApp';
 
+import profileLight from '../../assets/icon/profile_light_mode.png';
+import profileDark from '../../assets/icon/profile_dark_mode.png';
+
+const ProfileIcon = ({ size, className }) => (
+  <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
+    <img src={profileLight} className="dark:hidden w-full h-full object-cover" draggable="false" alt="Profile" />
+    <img src={profileDark} className="hidden dark:block w-full h-full object-cover" draggable="false" alt="Profile" />
+  </div>
+);
+
 // Define the available applicationss
 const appsConfig = [
-  { id: 'about', title: 'About Me', icon: 'User', component: <AboutApp /> },
+  { id: 'about', title: 'About Me', customIcon: ProfileIcon, component: <AboutApp /> },
   { id: 'projects', title: 'Projects', icon: 'FolderGit2', component: <ProjectsApp /> },
   { id: 'contact', title: 'Contact', icon: 'Mail', component: <ContactApp /> },
-  { id: 'resume', title: 'Resume', icon: 'FileText', component: <ResumeApp /> }
+  { id: 'resume', title: 'Resume', icon: 'FileText', component: <ResumeApp /> } 
 ];
 
 const Desktop = () => {
@@ -76,7 +86,8 @@ const Desktop = () => {
 
   const dockIcons = appsConfig.map(app => ({
     label: app.title,
-    icon: LucideIcons[app.icon] || LucideIcons.File,
+    icon: app.icon ? (LucideIcons[app.icon] || LucideIcons.File) : null,
+    customIcon: app.customIcon,
     onClick: () => handleOpenApp(app.id)
   }));
 
