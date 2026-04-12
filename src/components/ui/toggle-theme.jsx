@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Monitor } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+const OPTIONS = [
+  { value: 'light', icon: Sun, label: 'Light Mode' },
+  { value: 'system', icon: Monitor, label: 'System Theme' },
+  { value: 'dark', icon: Moon, label: 'Dark Mode' },
+];
 
 export const ToggleTheme = () => {
   const { theme, setTheme } = useTheme();
@@ -12,40 +18,49 @@ export const ToggleTheme = () => {
   }, []);
 
   if (!mounted) {
-    return <div className="w-14 h-14" />; // placeholder to prevent layout shift
+    return <div className="w-[164px] h-[60px]" />; // placeholder to prevent layout shift
   }
 
-  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  // Ensure default fallback if theme is undefined initially
+  const activeTheme = theme || 'system';
 
   return (
-    <button
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative flex items-center justify-center p-3 w-16 h-16 rounded-2xl text-black dark:text-white outline-none cursor-pointer scale-100 translate-y-0 transition-colors"
-      title="Toggle Theme"
+    <motion.div 
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="group flex items-center p-1.5 gap-1 rounded-3xl bg-white/70 dark:bg-black/40 backdrop-blur-md border border-black/5 dark:border-white/20 shadow-lg hover:scale-105 transition-transform duration-300"
     >
-      <motion.div
-        initial={false}
-        animate={{
-          rotate: isDark ? 180 : 0,
-          scale: isDark ? 0.8 : 1
-        }}
-        transition={{ duration: 0.5, type: 'spring' }}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      >
-        {!isDark ? <Sun size={30} strokeWidth={1.5} /> : null}
-      </motion.div>
+      {OPTIONS.map((option) => {
+        const isActive = activeTheme === option.value;
+        const Icon = option.icon;
 
-      <motion.div
-        initial={false}
-        animate={{
-          rotate: isDark ? 0 : -180,
-          scale: isDark ? 1 : 0.8
-        }}
-        transition={{ duration: 0.5, type: 'spring' }}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      >
-        {isDark ? <Moon size={30} strokeWidth={1.5} /> : null}
-      </motion.div>
-    </button>
+        return (
+          <button
+            key={option.value}
+            onClick={() => setTheme(option.value)}
+            className={`relative flex items-center justify-center w-12 h-12 rounded-2xl outline-none transition-all duration-200 ease-out hover:scale-110 active:scale-95 z-10 ${
+              isActive ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+            }`}
+            title={option.label}
+          >
+            {isActive && (
+              <motion.div
+                layoutId="active-pill"
+                className="absolute inset-0 rounded-2xl bg-white dark:bg-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.3)] border-[1.5px] border-black/10 dark:border-white/20 z-0"
+                transition={{
+                  type: "spring",
+                  stiffness: 350,
+                  damping: 28,
+                  mass: 0.8
+                }}
+              />
+            )}
+            <Icon size={22} strokeWidth={1.5} className="relative z-10" />
+          </button>
+        );
+      })}
+    </motion.div>
   );
 };

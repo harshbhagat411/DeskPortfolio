@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Desktop.module.css';
 import * as LucideIcons from 'lucide-react';
 import { GlassDock } from '../ui/liquid-glass';
+import { ToggleTheme } from '../ui/toggle-theme';
 
 import Window from '../Window/Window';
 
@@ -103,6 +104,10 @@ const Desktop = () => {
         <div className="pointer-events-auto">
           <GlassDock icons={dockIcons} />
         </div>
+      </div>
+
+      <div className="absolute top-6 right-6 z-50">
+        <ToggleTheme />
       </div>
     </div>
   );

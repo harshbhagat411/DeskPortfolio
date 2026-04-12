@@ -11,7 +11,7 @@ function App() {
   const patternFill = theme === 'light' ? '#e5e7eb' : '#252525';
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative z-0 bg-slate-50 dark:bg-[#0a0a0a] text-black dark:text-white transition-colors duration-300">
+    <div className="w-screen h-screen overflow-hidden relative z-0 bg-slate-50 dark:bg-[#0a0a0a] text-black dark:text-white transition-colors duration-500 ease-in-out">
       <BGPattern variant="dots" mask="fade-center" fill={patternFill} />
       <Desktop />
     </div>

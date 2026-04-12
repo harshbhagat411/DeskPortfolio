@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Home, Search, MessageSquare, Bell, Settings, User } from 'lucide-react';
-import { ToggleTheme } from './toggle-theme';
 
 const GlassDock = ({ icons }) => {
   return (
@@ -38,10 +37,6 @@ const GlassDock = ({ icons }) => {
         );
       })}
 
-      <div className="w-2 shrink-0" />
-      <div className="w-[1px] h-10 bg-black/20 dark:bg-white/30 rounded-full shrink-0 transition-colors duration-300" />
-      <div className="w-2 shrink-0" />
-      <ToggleTheme />
     </div>
   );
 };
