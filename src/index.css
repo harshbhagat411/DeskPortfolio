@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 @keyframes moveBackground {
   from {
     background-position: 0% 0%;
@@ -11,25 +13,47 @@
 }
 
 :root {
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --glass-blur: blur(16px);
+  --glass-header: rgba(0, 0, 0, 0.05);
+  
+  --text-main: #1e1e1e;
+  --text-muted: #6b7280;
+  --text-dark: #000000;
+  
+  --window-bg: rgba(255, 255, 255, 0.7);
+  --window-content-bg: rgba(255, 255, 255, 0.5);
+  
+  --bg-gradient-start: #f8fafc;
+  --bg-gradient-end: #e2e8f0;
+  
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --danger-color: #ef4444;
+  
+  --taskbar-bg: rgba(255, 255, 255, 0.6);
+  --taskbar-blur: blur(20px);
+}
+
+.dark {
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(16px);
   --glass-header: rgba(255, 255, 255, 0.15);
   
   --text-main: #ffffff;
   --text-muted: #d4d4d4;
   --text-dark: #1e1e1e;
   
+  --window-bg: rgba(30, 30, 30, 0.7);
+  --window-content-bg: rgba(0, 0, 0, 0.2);
+  
   --bg-gradient-start: #0f172a;
   --bg-gradient-end: #3b0764;
-  
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --danger-color: #ef4444;
-  
+
   --taskbar-bg: rgba(15, 23, 42, 0.6);
-  --taskbar-blur: blur(20px);
 }
 
 * {
@@ -45,8 +69,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #000000;
-  color: var(--text-main);
+  @apply bg-white dark:bg-black text-black dark:text-white transition-colors duration-300;
 }
 
 /* Scrollbar styling for windows */

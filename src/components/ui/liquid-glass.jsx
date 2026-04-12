@@ -1,60 +1,51 @@
 import React, { useState } from 'react';
 import { Home, Search, MessageSquare, Bell, Settings, User } from 'lucide-react';
+import { ToggleTheme } from './toggle-theme';
 
 const GlassDock = ({ icons }) => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
   return (
     <div 
-      className="flex items-end justify-center px-6 pb-4 pt-4 rounded-3xl mx-auto backdrop-blur-xl bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/20 gap-5 transition-all duration-300"
-      onMouseLeave={() => setHoveredIndex(null)}
+      className="flex items-center justify-center px-10 py-5 rounded-full mx-auto backdrop-blur-xl bg-black/10 dark:bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-black/10 dark:border-white/20 transition-colors duration-300"
     >
       {icons.map((item, index) => {
-        const isHovered = hoveredIndex === index;
-        const isNeighbor = hoveredIndex !== null && Math.abs(hoveredIndex - index) === 1;
-        const isSecondNeighbor = hoveredIndex !== null && Math.abs(hoveredIndex - index) === 2;
-
-        let scale = "scale-100";
-        let translateY = "translate-y-0";
-        let width = "w-12";
-        let height = "h-12";
-        
-        if (isHovered) {
-           scale = "scale-[1.5]";
-           translateY = "-translate-y-4";
-           width = "w-16";
-           height = "h-16";
-        } else if (isNeighbor) {
-           scale = "scale-[1.25]";
-           translateY = "-translate-y-2";
-           width = "w-14";
-           height = "h-14";
-        } else if (isSecondNeighbor) {
-           scale = "scale-[1.1]";
-           translateY = "-translate-y-1";
-           width = "w-[3.25rem]";
-           height = "h-[3.25rem]";
-        }
-
         return (
-          <div
-            key={index}
-            className={`relative flex items-center justify-center rounded-2xl bg-gradient-to-tr from-white/10 to-white/30 border border-white/20 text-white shadow-lg backdrop-blur-md transition-all duration-300 ease-out origin-bottom cursor-pointer hover:bg-white/25 hover:border-white/40 z-10 hover:z-20 ${width} ${height} ${scale} ${translateY}`}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log(`Clicked on ${item.label}`);
-              if (item.onClick) item.onClick();
-            }}
-            title={item.label}
-          >
-            <item.icon size={24} strokeWidth={1.5} className="transition-transform duration-300 pointer-events-none" />
-          </div>
+          <React.Fragment key={index}>
+            <div
+              className={`flex items-center justify-center p-3 w-16 h-16 rounded-2xl text-black dark:text-white outline-none cursor-pointer scale-100 translate-y-0 transition-colors duration-300`}
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(`Clicked on ${item.label}`);
+                if (item.onClick) item.onClick();
+              }}
+              title={item.label}
+            >
+              <item.icon 
+                size={30} 
+                strokeWidth={1.5} 
+              />
+            </div>
+
+            {index === 0 ? (
+              <>
+                <div className="w-2 shrink-0" />
+                <div className="w-[1px] h-10 bg-black/20 dark:bg-white/30 rounded-full shrink-0 transition-colors duration-300" />
+                <div className="w-2 shrink-0" />
+              </>
+            ) : index !== icons.length - 1 ? (
+              <div className="w-4 shrink-0" />
+            ) : null}
+          </React.Fragment>
         );
       })}
+
+      <div className="w-2 shrink-0" />
+      <div className="w-[1px] h-10 bg-black/20 dark:bg-white/30 rounded-full shrink-0 transition-colors duration-300" />
+      <div className="w-2 shrink-0" />
+      <ToggleTheme />
     </div>
   );
 };
+
 
 export const Component = () => {
   const dockIcons = [
@@ -67,7 +58,7 @@ export const Component = () => {
   ];
 
   return (
-    <div className="absolute bottom-5 inset-x-0 w-full flex justify-center z-50 pointer-events-auto">
+    <div className="absolute bottom-6 inset-x-0 w-full flex justify-center z-50">
       <GlassDock icons={dockIcons} />
     </div>
   );

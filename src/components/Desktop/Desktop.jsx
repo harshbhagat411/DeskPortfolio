@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Desktop.module.css';
+import * as LucideIcons from 'lucide-react';
+import { GlassDock } from '../ui/liquid-glass';
 
 import Window from '../Window/Window';
 
@@ -11,8 +13,8 @@ import ResumeApp from '../../screens/ResumeApp/ResumeApp';
 
 // Define the available applications
 const appsConfig = [
-  { id: 'projects', title: 'Projects', icon: 'FolderGit2', component: <ProjectsApp /> },
   { id: 'about', title: 'About Me', icon: 'User', component: <AboutApp /> },
+  { id: 'projects', title: 'Projects', icon: 'FolderGit2', component: <ProjectsApp /> },
   { id: 'contact', title: 'Contact', icon: 'Mail', component: <ContactApp /> },
   { id: 'resume', title: 'Resume', icon: 'FileText', component: <ResumeApp /> }
 ];
@@ -71,6 +73,12 @@ const Desktop = () => {
     setOpenWindows(prev => prev.map(w => w.id === appId ? { ...w, isMinimized: false } : w));
   };
 
+  const dockIcons = appsConfig.map(app => ({
+    label: app.title,
+    icon: LucideIcons[app.icon] || LucideIcons.File,
+    onClick: () => handleOpenApp(app.id)
+  }));
+
   return (
     <div className={styles.desktop}>
       <div className={styles.workspace} onClick={() => setActiveWindowId(null)}>
@@ -91,7 +99,11 @@ const Desktop = () => {
         ))}
       </div>
       
-
+      <div className="absolute bottom-6 inset-x-0 w-full flex justify-center z-50 pointer-events-none">
+        <div className="pointer-events-auto">
+          <GlassDock icons={dockIcons} />
+        </div>
+      </div>
     </div>
   );
 };
