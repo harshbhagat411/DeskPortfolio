@@ -11,7 +11,7 @@ import AboutApp from '../../screens/AboutApp/AboutApp';
 import ContactApp from '../../screens/ContactApp/ContactApp';
 import ResumeApp from '../../screens/ResumeApp/ResumeApp';
 
-// Define the available applications
+// Define the available applicationss
 const appsConfig = [
   { id: 'about', title: 'About Me', icon: 'User', component: <AboutApp /> },
   { id: 'projects', title: 'Projects', icon: 'FolderGit2', component: <ProjectsApp /> },
