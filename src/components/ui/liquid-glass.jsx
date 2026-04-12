@@ -4,7 +4,7 @@ import { Home, Search, MessageSquare, Bell, Settings, User } from 'lucide-react'
 const GlassDock = ({ icons }) => {
   return (
     <div 
-      className="flex items-center justify-center px-10 py-5 rounded-full mx-auto backdrop-blur-xl bg-black/10 dark:bg-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-black/10 dark:border-white/20 transition-colors duration-300"
+      className="flex items-center justify-center px-5 py-2.5 rounded-[28px] mx-auto backdrop-blur-xl bg-white/20 dark:bg-white/10 border border-white/30 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)] transition-all duration-300 ease-out hover:scale-[1.02]"
     >
       {icons.map((item, index) => {
         return (
