@@ -145,17 +145,17 @@ const Desktop = () => {
           drag
           dragMomentum={false}
           initial={folderPos}
-          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] hover:bg-black/5 dark:hover:bg-white/10 p-4 transition-colors z-0"
+          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 transition-all duration-300 z-0"
           onDoubleClick={(e) => {
             e.stopPropagation();
             handleOpenApp('projects');
           }}
         >
-          <div className="w-[160px] h-[160px] relative drop-shadow-[0_12px_24px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)] pointer-events-none">
+          <div className="w-[160px] h-[160px] relative pointer-events-none">
             <img src={folderLightMode} className="w-full h-full object-contain dark:hidden" draggable="false" alt="Projects" />
             <img src={folderDarkMode} className="hidden dark:block w-full h-full object-contain" draggable="false" alt="Projects" />
           </div>
-          <span className="text-[18px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide drop-shadow-[0_0_12px_rgba(255,255,255,1)] dark:drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] px-3 py-1 rounded pointer-events-none">Projects</span>
+          <span className="text-[18px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide px-3 py-1 rounded pointer-events-none">Projects</span>
         </motion.div>
 
         
