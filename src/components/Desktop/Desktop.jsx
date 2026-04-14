@@ -145,7 +145,12 @@ const Desktop = () => {
           drag
           dragMomentum={false}
           initial={folderPos}
-          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 transition-all duration-300 z-0 group"
+          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 z-0 group"
+          style={{ 
+            transitionProperty: "background-color, border-color, box-shadow, backdrop-filter, opacity",
+            transitionDuration: "300ms",
+            transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)"
+          }}
           onDoubleClick={(e) => {
             e.stopPropagation();
             handleOpenApp('projects');
