@@ -17,8 +17,8 @@ import profileDark from '../../assets/icon/profile_dark_mode.png';
 import instaLogo from '../../assets/icon/Instagram_icon.png';
 import linkedinLogo from '../../assets/icon/LinkedIn_logo.png';
 import instaDesignLogo from '../../assets/icon/Instagram_design_icon.png';
-import folderDarkMode from '../../assets/system/folderDarkMode.png';
-import folderLightMode from '../../assets/system/folderLightMode.png';
+import projectFolder from '../../assets/system/ProjectFolder.png';
+import projectFolderHover from '../../assets/system/ProjectFolderHower.png';
 
 const InstaDesignIcon = ({ size, className }) => (
   <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
@@ -145,15 +145,15 @@ const Desktop = () => {
           drag
           dragMomentum={false}
           initial={folderPos}
-          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 transition-all duration-300 z-0"
+          className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 transition-all duration-300 z-0 group"
           onDoubleClick={(e) => {
             e.stopPropagation();
             handleOpenApp('projects');
           }}
         >
           <div className="w-[160px] h-[160px] relative pointer-events-none">
-            <img src={folderLightMode} className="w-full h-full object-contain dark:hidden" draggable="false" alt="Projects" />
-            <img src={folderDarkMode} className="hidden dark:block w-full h-full object-contain" draggable="false" alt="Projects" />
+            <img src={projectFolder} className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0" draggable="false" alt="Projects" />
+            <img src={projectFolderHover} className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100" draggable="false" alt="Projects Hover" />
           </div>
           <span className="text-[18px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide px-3 py-1 rounded pointer-events-none">Projects</span>
         </motion.div>
