@@ -95,3 +95,16 @@ body {
 button, input, textarea {
   font-family: inherit;
 }
+
+.glass-panel {
+  @apply backdrop-blur-xl bg-white/5 border border-white/30 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)];
+}
+
+.glass-card-hover {
+  @apply transition-all duration-300 ease-out transform-gpu hover:scale-[1.02] hover:-translate-y-1 hover:border-white/50 dark:hover:border-white/25 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.5)];
+}
+
+.glass-card-hover-subtle {
+  @apply transition-all duration-[250ms] ease-out transform-gpu hover:-translate-y-[2.5px] hover:border-white/50 dark:hover:border-white/25 hover:shadow-[0_12px_32px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.5)];
+}
+

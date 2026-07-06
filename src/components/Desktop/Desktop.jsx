@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './Desktop.module.css';
 import * as LucideIcons from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 import { GlassDock } from '../ui/liquid-glass';
 import { ToggleTheme } from '../ui/toggle-theme';
 
 import Window from '../Window/Window';
+import FaceWidget from '../ui/FaceWidget';
 
 // Import App Components
 import ProjectsApp from '../../screens/ProjectsApp/ProjectsApp';
@@ -177,8 +178,11 @@ const Desktop = () => {
             {window.component}
           </Window>
         ))}
+
       </div>
-      
+      {/* Draggable Face Widget in Bottom Left Corner */}
+      <FaceWidget />
+
       <div className="absolute bottom-6 inset-x-0 w-full flex justify-center z-50 pointer-events-none">
         <div className="pointer-events-auto">
           <GlassDock icons={dockIcons} />
