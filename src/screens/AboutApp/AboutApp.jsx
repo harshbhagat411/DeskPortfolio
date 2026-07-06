@@ -2,6 +2,9 @@ import React from "react";
 import styles from "./AboutApp.module.css";
 import { Sparkles, Users, Palette, Handshake } from "lucide-react";
 import GlassCard from "../../components/ui/GlassCard";
+import { useTheme } from "next-themes";
+import logoLight from "../../assets/branding/personal-logo-light.png";
+import logoDark from "../../assets/branding/personal-logo-dark.png";
 
 const skills = [
   "User Research",
@@ -32,10 +35,29 @@ const tools = [
 ];
 
 const AboutApp = () => {
+  const { resolvedTheme } = useTheme();
+  const [logoError, setLogoError] = React.useState(false);
+
+  React.useEffect(() => {
+    setLogoError(false);
+  }, [resolvedTheme]);
+
   return (
     <div className={styles.container}>
       <div className={styles.profileHeader}>
-        <div className={styles.avatar}>JS</div>
+        <div className={styles.avatar}>
+          {!logoError ? (
+            <img
+              src={resolvedTheme === "dark" ? logoDark : logoLight}
+              alt="Harsh Bhagat"
+              className={styles.avatarImg}
+              draggable="false"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            "JS"
+          )}
+        </div>
         <div>
           <h1 className={styles.title}>Harsh Bhagat</h1>
           <h2 className={styles.subtitle}>
