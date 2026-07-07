@@ -2,43 +2,112 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  padding: 8px;
+  width: 110px;
   cursor: pointer;
-  transition: background-color 0.1s ease;
+  user-select: none;
+  outline: none;
+  position: relative;
+  /* GPU acceleration container */
+  transform: translateZ(0);
 }
 
-.iconContainer:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.iconWrapper {
+.screenshotContainer {
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 8px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  color: white;
+  position: relative;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+
+  /* GPU transitions */
+  transition:
+    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+  transform-origin: center bottom;
+
+  /* Soft shadow filter on custom shape PNG icons */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 
-.iconLabel {
-  color: white;
-  font-size: 0.85rem;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+.screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Hover behaviors */
+.iconContainer:hover .screenshotContainer {
+  transform: translateY(-4px) scale(1.04);
+  /* Slightly elevate and brighten the shadow */
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+}
+
+/* Click scale compression animation */
+.clickScale {
+  transform: scale(0.98) translateY(0) !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)) !important;
+  transition:
+    transform 100ms ease-out,
+    filter 100ms ease-out !important;
+}
+
+/* Typography styles matching existing labels */
+.label {
+  margin-top: 8px;
+  font-family: inherit;
+  font-size: 0.8rem;
   font-weight: 500;
-  white-space: nowrap;
+  text-align: center;
+  color: #1e1e1e;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  padding: 2px 8px;
+  border-radius: 6px;
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  line-height: 1.3;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  border: 1px solid transparent;
+}
+
+:global(.dark) .label {
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.labelSelected {
+  background-color: var(--primary-color, #4f46e5);
+  color: white !important;
+  text-shadow: none !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive constraints */
+@media (max-width: 1024px) {
+  .iconContainer {
+    width: 95px;
+  }
+  .screenshotContainer {
+    width: 62px;
+    height: 62px;
+  }
+}
+
+@media (max-width: 640px) {
+  .iconContainer {
+    width: 80px;
+  }
+  .screenshotContainer {
+    width: 52px;
+    height: 52px;
+  }
 }

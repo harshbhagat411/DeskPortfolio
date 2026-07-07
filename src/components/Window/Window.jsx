@@ -4,8 +4,14 @@ import { X, Minus, Square, Copy } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
 const Window = ({ window: appWindow, isActive, onActivate, onClose, onMinimize, onMaximize, children }) => {
-  const [position, setPosition] = useState({ x: window.innerWidth / 2 - 300, y: window.innerHeight / 2 - 200 });
-  const [size, setSize] = useState({ width: 800, height: 500 });
+  const [position, setPosition] = useState({
+    x: window.innerWidth / 2 - (appWindow.defaultWidth ? appWindow.defaultWidth / 2 : 400),
+    y: window.innerHeight / 2 - (appWindow.defaultHeight ? appWindow.defaultHeight / 2 : 250)
+  });
+  const [size, setSize] = useState({
+    width: appWindow.defaultWidth || 800,
+    height: appWindow.defaultHeight || 500
+  });
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef(null);
   
