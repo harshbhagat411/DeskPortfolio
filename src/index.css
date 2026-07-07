@@ -159,8 +159,7 @@ button, input, textarea {
 }
 
 .glass-panel {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: var(--glass-blur, blur(16px));
   background: var(--theme-glass-bg);
   border: 1px solid var(--theme-glass-border);
   box-shadow: var(--theme-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.15);

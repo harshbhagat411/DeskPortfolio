@@ -5,8 +5,8 @@
   width: 100%;
   height: 48px;
   background: var(--taskbar-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: var(--taskbar-blur);
+  -webkit-backdrop-filter: var(--taskbar-blur);
   display: flex;
   align-items: center;
   justify-content: space-between;
