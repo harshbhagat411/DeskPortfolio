@@ -4,7 +4,7 @@ import TDBlogs from "../assets/projects/TheDrobe/TDBlogs.png";
 
 import TasknestSS from "../assets/projects/TaskNest/TasknestSS.png";
 
-import QuickFreshSS from "../assets/projects/QuickFresh/QuickFreshSS.png";
+import QuickFreshSS from "../assets/projects/QuickFresh/QuickfreshSS.png";
 
 import FBHome from "../assets/projects/FlavoraBistro/FBHome.png";
 import FBMenu from "../assets/projects/FlavoraBistro/FBMenu.png";
