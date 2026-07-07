@@ -11,10 +11,14 @@ import FaceWidget from "../ui/FaceWidget";
 import { projects } from "../../data/projects";
 import DesktopIcon from "../DesktopIcon/DesktopIcon";
 import ProjectDetail from "../ProjectDetail/ProjectDetail";
+import CalendarWidget from "../widgets/CalendarWidget";
+import ThoughtsWidget from "../widgets/ThoughtsWidget";
+import ThemeWidget from "../widgets/ThemeWidget";
 
 // Import App Components
 import AboutApp from "../../screens/AboutApp/AboutApp";
 import DesignsApp from "../../screens/DesignsApp/DesignsApp";
+import ThemeCenterApp from "../../screens/ThemeCenterApp/ThemeCenterApp";
 import profileLight from "../../assets/icon/profile_light_mode.png";
 import profileDark from "../../assets/icon/profile_dark_mode.png";
 import instaLogo from "../../assets/icon/Instagram_icon.png";
@@ -115,13 +119,13 @@ const Desktop = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
+      const isMobile = width <= 640;
+      const isTablet = width <= 1024;
+
       setFolderPos({
         x: width / 2 - 180,
         y: height / 2 - 100,
       });
-
-      const isMobile = width <= 640;
-      const isTablet = width <= 1024;
 
       const coordsMap = {
         "tasker-ai": {
@@ -309,7 +313,7 @@ const Desktop = () => {
           drag
           dragMomentum={false}
           initial={folderPos}
-          className="absolute flex flex-col items-center justify-center gap-2 cursor-pointer w-[130px] rounded-[14px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-3 z-0 group"
+          className="absolute flex flex-col items-center justify-center gap-2 cursor-pointer w-[130px] rounded-[14px] border border-transparent hover:bg-[var(--theme-folder-hover)] hover:backdrop-blur-md hover:border-[var(--theme-accent-muted)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] p-3 z-0 group"
           style={{
             transitionProperty:
               "background-color, border-color, box-shadow, backdrop-filter, opacity",
@@ -390,6 +394,15 @@ const Desktop = () => {
       <div className="absolute top-6 right-6 z-50">
         <ToggleTheme />
       </div>
+
+      {/* Calendar Desktop Widget */}
+      <CalendarWidget />
+
+      {/* Thoughts Desktop Widget */}
+      <ThoughtsWidget />
+
+      {/* Theme Desktop Widget */}
+      <ThemeWidget />
     </div>
   );
 };

@@ -142,9 +142,10 @@ export const FaceWidget = ({ onClick }: FaceWidgetProps) => {
         >
           {/* Subtle radial glow behind the head - opacity increases by 15% (from 0.05 to 0.20) on hover */}
           <div
-            className="absolute w-[70%] h-[70%] rounded-full bg-blue-500 blur-[40px] z-0 pointer-events-none transition-all duration-500"
+            className="absolute w-[70%] h-[70%] rounded-full blur-[40px] z-0 pointer-events-none transition-all duration-500"
             style={{
-              opacity: isHovered ? 0.2 : 0.05,
+              backgroundColor: "var(--theme-avatar-glow, #3b82f6)",
+              opacity: isHovered ? 0.35 : 0.15,
               transform: isHovered ? "scale(1.2)" : "scale(1)",
             }}
           />

@@ -14,8 +14,8 @@
 
 :root {
   --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --glass-border: var(--theme-glass-border, rgba(0, 0, 0, 0.1));
+  --glass-shadow: var(--theme-shadow, 0 8px 32px 0 rgba(0, 0, 0, 0.1));
   --glass-blur: blur(16px);
   --glass-header: rgba(0, 0, 0, 0.05);
   
@@ -23,8 +23,8 @@
   --text-muted: #6b7280;
   --text-dark: #000000;
   
-  --window-bg: rgba(255, 255, 255, 0.7);
-  --window-content-bg: rgba(255, 255, 255, 0.5);
+  --window-bg: var(--theme-glass-bg, rgba(255, 255, 255, 0.7));
+  --window-content-bg: var(--theme-glass-bg-content, rgba(255, 255, 255, 0.5));
   
   --bg-gradient-start: #f8fafc;
   --bg-gradient-end: #e2e8f0;
@@ -35,25 +35,87 @@
   
   --taskbar-bg: rgba(255, 255, 255, 0.6);
   --taskbar-blur: blur(20px);
+
+  /* Themes Setup */
+  --mono-accent: #27272a;
+  --mono-accent-muted: rgba(39, 39, 42, 0.1);
+  --mono-widget-tint: rgba(0, 0, 0, 0.05);
+  --mono-selection: rgba(0, 0, 0, 0.1);
+  --mono-avatar-glow: rgba(59, 130, 246, 0.2);
+  --mono-folder-hover: rgba(0, 0, 0, 0.05);
+  
+  --default-glass-bg: rgba(255, 255, 255, 0.75);
+  --default-glass-bg-content: rgba(255, 255, 255, 0.5);
+  --default-glass-border: rgba(0, 0, 0, 0.1);
+  --default-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  
+  --theme-accent: var(--mono-accent);
+  --theme-accent-muted: var(--mono-accent-muted);
+  --theme-widget-tint: var(--mono-widget-tint);
+  --theme-wallpaper: none;
+  --theme-wallpaper-opacity: 0;
+  --theme-glass-bg: var(--default-glass-bg);
+  --theme-glass-bg-content: var(--default-glass-bg-content);
+  --theme-glass-border: var(--default-glass-border);
+  --theme-shadow: var(--default-shadow);
+  --theme-selection: var(--mono-selection);
+  --theme-avatar-glow: var(--mono-avatar-glow);
+  --theme-folder-hover: var(--mono-folder-hover);
+
+  --theme-text-main: var(--text-main);
+  --theme-text-muted: var(--text-muted);
+
+  /* Theme specific texts (Light Mode fallback) */
+  --ocean-text-main: #0c2340;
+  --ocean-text-muted: #3a5c85;
+  
+  --golden-text-main: #2b1803;
+  --golden-text-muted: #6b4c29;
+  
+  --arctic-text-main: #091c33;
+  --arctic-text-muted: #3b526d;
 }
 
 .dark {
   --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-border: var(--theme-glass-border, rgba(255, 255, 255, 0.2));
+  --glass-shadow: var(--theme-shadow, 0 8px 32px 0 rgba(0, 0, 0, 0.37));
   --glass-header: rgba(255, 255, 255, 0.15);
   
   --text-main: #ffffff;
   --text-muted: #d4d4d4;
   --text-dark: #1e1e1e;
   
-  --window-bg: rgba(30, 30, 30, 0.7);
-  --window-content-bg: rgba(0, 0, 0, 0.2);
+  --window-bg: var(--theme-glass-bg, rgba(30, 30, 30, 0.7));
+  --window-content-bg: var(--theme-glass-bg-content, rgba(0, 0, 0, 0.2));
   
   --bg-gradient-start: #0f172a;
   --bg-gradient-end: #3b0764;
 
   --taskbar-bg: rgba(15, 23, 42, 0.6);
+
+  /* Themes Setup Dark */
+  --mono-accent: #ffffff;
+  --mono-accent-muted: rgba(255, 255, 255, 0.15);
+  --mono-widget-tint: rgba(255, 255, 255, 0.08);
+  --mono-selection: rgba(255, 255, 255, 0.2);
+  --mono-avatar-glow: rgba(59, 130, 246, 0.35);
+  --mono-folder-hover: rgba(255, 255, 255, 0.1);
+  
+  --default-glass-bg: rgba(20, 20, 20, 0.75);
+  --default-glass-bg-content: rgba(0, 0, 0, 0.2);
+  --default-glass-border: rgba(255, 255, 255, 0.1);
+  --default-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+
+  /* Theme specific texts (Dark Mode fallback) */
+  --ocean-text-main: #ffffff;
+  --ocean-text-muted: #a3d9ff;
+  
+  --golden-text-main: #ffffff;
+  --golden-text-muted: #ffe2bd;
+  
+  --arctic-text-main: #ffffff;
+  --arctic-text-muted: #b8e6ff;
 }
 
 * {
@@ -97,7 +159,11 @@ button, input, textarea {
 }
 
 .glass-panel {
-  @apply backdrop-blur-xl bg-white/5 border border-white/30 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)];
+  backdrop-filter: var(--glass-blur, blur(16px));
+  background: var(--theme-glass-bg);
+  border: 1px solid var(--theme-glass-border);
+  box-shadow: var(--theme-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition: background 400ms ease-in-out, border-color 400ms ease-in-out, box-shadow 400ms ease-in-out;
 }
 
 .glass-card-hover {
