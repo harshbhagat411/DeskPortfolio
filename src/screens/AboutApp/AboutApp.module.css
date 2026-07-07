@@ -39,13 +39,40 @@
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  line-height: 1.2;
 }
 
 .subtitle {
   font-size: 1.2rem;
   color: var(--primary-color);
   margin-bottom: 16px;
+}
+
+.tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  font-weight: 400;
+  margin-bottom: 22px;
+}
+
+.downloadLink {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  width: auto;
+}
+
+.downloadBtn {
+  width: auto;
+}
+
+@media (max-width: 640px) {
+  .downloadLink,
+  .downloadBtn {
+    width: 100%;
+  }
 }
 
 .bio {

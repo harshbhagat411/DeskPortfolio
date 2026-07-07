@@ -1,171 +1,253 @@
-import React, { useState } from 'react';
-import styles from './Desktop.module.css';
-import * as LucideIcons from 'lucide-react';
-import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
-import { GlassDock } from '../ui/liquid-glass';
-import { ToggleTheme } from '../ui/toggle-theme';
+import React, { useState } from "react";
+import styles from "./Desktop.module.css";
+import * as LucideIcons from "lucide-react";
+import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
+import { GlassDock } from "../ui/liquid-glass";
+import { ToggleTheme } from "../ui/toggle-theme";
 
-import Window from '../Window/Window';
-import FaceWidget from '../ui/FaceWidget';
+import Window from "../Window/Window";
+import FaceWidget from "../ui/FaceWidget";
 
 // Import App Components
-import ProjectsApp from '../../screens/ProjectsApp/ProjectsApp';
-import AboutApp from '../../screens/AboutApp/AboutApp';
-import ResumeApp from '../../screens/ResumeApp/ResumeApp';
-
-import profileLight from '../../assets/icon/profile_light_mode.png';
-import profileDark from '../../assets/icon/profile_dark_mode.png';
-import instaLogo from '../../assets/icon/Instagram_icon.png';
-import linkedinLogo from '../../assets/icon/LinkedIn_logo.png';
-import instaDesignLogo from '../../assets/icon/Instagram_design_icon.png';
-import projectFolder from '../../assets/system/ProjectFolder.png';
-import projectFolderHover from '../../assets/system/ProjectFolderHower.png';
+import ProjectsApp from "../../screens/ProjectsApp/ProjectsApp";
+import AboutApp from "../../screens/AboutApp/AboutApp";
+import profileLight from "../../assets/icon/profile_light_mode.png";
+import profileDark from "../../assets/icon/profile_dark_mode.png";
+import instaLogo from "../../assets/icon/Instagram_icon.png";
+import linkedinLogo from "../../assets/icon/LinkedIn_logo.png";
+import instaDesignLogo from "../../assets/icon/Instagram_design_icon.png";
+import projectFolder from "../../assets/system/ProjectFolder.png";
+import projectFolderHover from "../../assets/system/ProjectFolderHower.png";
 
 const InstaDesignIcon = ({ size, className }) => (
-  <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
-    <img src={instaDesignLogo} className="w-full h-full object-cover" draggable="false" alt="Design IG" />
+  <div
+    style={{ width: size, height: size }}
+    className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ""}`}
+  >
+    <img
+      src={instaDesignLogo}
+      className="w-full h-full object-cover"
+      draggable="false"
+      alt="Design IG"
+    />
   </div>
 );
 
 const InstaIcon = ({ size, className }) => (
-  <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
-    <img src={instaLogo} className="w-full h-full object-cover" draggable="false" alt="Instagram" />
+  <div
+    style={{ width: size, height: size }}
+    className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ""}`}
+  >
+    <img
+      src={instaLogo}
+      className="w-full h-full object-cover"
+      draggable="false"
+      alt="Instagram"
+    />
   </div>
 );
 
 const LinkedinIcon = ({ size, className }) => (
-  <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
-    <img src={linkedinLogo} className="w-full h-full object-cover" draggable="false" alt="LinkedIn" />
+  <div
+    style={{ width: size, height: size }}
+    className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ""}`}
+  >
+    <img
+      src={linkedinLogo}
+      className="w-full h-full object-cover"
+      draggable="false"
+      alt="LinkedIn"
+    />
   </div>
 );
 
 const ProfileIcon = ({ size, className }) => (
-  <div style={{ width: size, height: size }} className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ''}`}>
-    <img src={profileLight} className="dark:hidden w-full h-full object-cover" draggable="false" alt="Profile" />
-    <img src={profileDark} className="hidden dark:block w-full h-full object-cover" draggable="false" alt="Profile" />
+  <div
+    style={{ width: size, height: size }}
+    className={`relative flex-shrink-0 overflow-hidden rounded-md ${className || ""}`}
+  >
+    <img
+      src={profileLight}
+      className="dark:hidden w-full h-full object-cover"
+      draggable="false"
+      alt="Profile"
+    />
+    <img
+      src={profileDark}
+      className="hidden dark:block w-full h-full object-cover"
+      draggable="false"
+      alt="Profile"
+    />
   </div>
 );
 
 // Define the available applicationss
 const appsConfig = [
-  { id: 'about', title: 'About Me', customIcon: ProfileIcon, component: <AboutApp /> },
-  { id: 'projects', title: 'Projects', icon: 'FolderGit2', component: <ProjectsApp /> },
-  { id: 'resume', title: 'Resume', icon: 'FileText', component: <ResumeApp /> } 
+  {
+    id: "about",
+    title: "About Me",
+    customIcon: ProfileIcon,
+    component: <AboutApp />,
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    icon: "FolderGit2",
+    component: <ProjectsApp />,
+  },
 ];
 
 const Desktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [activeWindowId, setActiveWindowId] = useState(null);
-  
+
   // Fixed starting position for the folder
   const [folderPos] = useState({
     x: 120,
-    y: 100
+    y: 100,
   });
 
   const handleOpenApp = (appId) => {
     // Check if app is already open
-    const existingWindow = openWindows.find(w => w.id === appId);
+    const existingWindow = openWindows.find((w) => w.id === appId);
     if (existingWindow) {
       // If it's minimized, restore it
       if (existingWindow.isMinimized) {
-        setOpenWindows(prev => prev.map(w => w.id === appId ? { ...w, isMinimized: false } : w));
+        setOpenWindows((prev) =>
+          prev.map((w) => (w.id === appId ? { ...w, isMinimized: false } : w)),
+        );
       }
       setActiveWindowId(appId);
       return;
     }
-    
+
     // Open new app
-    const app = appsConfig.find(a => a.id === appId);
+    const app = appsConfig.find((a) => a.id === appId);
     if (!app) return;
-    
+
     const newWindow = {
       ...app,
       isMinimized: false,
       isMaximized: false,
     };
-    
-    setOpenWindows(prev => [...prev, newWindow]);
+
+    setOpenWindows((prev) => [...prev, newWindow]);
     setActiveWindowId(appId);
   };
-  
+
   const handleCloseWindow = (appId) => {
-    setOpenWindows(prev => prev.filter(w => w.id !== appId));
+    setOpenWindows((prev) => prev.filter((w) => w.id !== appId));
     if (activeWindowId === appId) {
       setActiveWindowId(null);
     }
   };
-  
+
   const handleMinimizeWindow = (appId) => {
-    setOpenWindows(prev => prev.map(w => w.id === appId ? { ...w, isMinimized: true } : w));
+    setOpenWindows((prev) =>
+      prev.map((w) => (w.id === appId ? { ...w, isMinimized: true } : w)),
+    );
     if (activeWindowId === appId) {
       setActiveWindowId(null);
     }
   };
-  
+
   const handleMaximizeWindow = (appId) => {
-    setOpenWindows(prev => prev.map(w => w.id === appId ? { ...w, isMaximized: !w.isMaximized } : w));
+    setOpenWindows((prev) =>
+      prev.map((w) =>
+        w.id === appId ? { ...w, isMaximized: !w.isMaximized } : w,
+      ),
+    );
   };
-  
+
   const handleActivateWindow = (appId) => {
     setActiveWindowId(appId);
     // If it was minimized, restore it
-    setOpenWindows(prev => prev.map(w => w.id === appId ? { ...w, isMinimized: false } : w));
+    setOpenWindows((prev) =>
+      prev.map((w) => (w.id === appId ? { ...w, isMinimized: false } : w)),
+    );
   };
 
   const dockIcons = [
-    ...appsConfig.filter(app => app.id !== 'projects').map(app => ({
-      label: app.title,
-      icon: app.icon ? (LucideIcons[app.icon] || LucideIcons.File) : null,
-      customIcon: app.customIcon,
-      onClick: () => handleOpenApp(app.id)
-    })),
+    ...appsConfig
+      .filter((app) => app.id !== "projects")
+      .map((app) => ({
+        label: app.title,
+        icon: app.icon ? LucideIcons[app.icon] || LucideIcons.File : null,
+        customIcon: app.customIcon,
+        onClick: () => handleOpenApp(app.id),
+      })),
     {
-      label: 'Instagram',
+      label: "Instagram",
       customIcon: InstaIcon,
-      onClick: () => window.open('https://www.instagram.com/harsh.bhagat411/', '_blank', 'noopener,noreferrer')
+      onClick: () =>
+        window.open(
+          "https://www.instagram.com/harsh.bhagat411/",
+          "_blank",
+          "noopener,noreferrer",
+        ),
     },
     {
-      label: 'Design IG',
+      label: "Design IG",
       customIcon: InstaDesignIcon,
-      onClick: () => window.open('https://www.instagram.com/harshui.ux/', '_blank', 'noopener,noreferrer')
+      onClick: () =>
+        window.open(
+          "https://www.instagram.com/harshui.ux/",
+          "_blank",
+          "noopener,noreferrer",
+        ),
     },
     {
-      label: 'LinkedIn',
+      label: "LinkedIn",
       customIcon: LinkedinIcon,
-      onClick: () => window.open('https://www.linkedin.com/in/harsh-bhagat-863741356/', '_blank', 'noopener,noreferrer')
-    }
+      onClick: () =>
+        window.open(
+          "https://www.linkedin.com/in/harsh-bhagat-863741356/",
+          "_blank",
+          "noopener,noreferrer",
+        ),
+    },
   ];
 
   return (
     <div className={styles.desktop}>
       <div className={styles.workspace} onClick={() => setActiveWindowId(null)}>
-
         {/* Projects Desktop Folder */}
-        <motion.div 
+        <motion.div
           drag
           dragMomentum={false}
           initial={folderPos}
           className="absolute flex flex-col items-center justify-center gap-3 cursor-pointer w-[200px] rounded-[16px] border border-transparent hover:bg-white/20 hover:backdrop-blur-md hover:border-white/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:hover:bg-white/10 dark:hover:border-white/20 p-4 z-0 group"
-          style={{ 
-            transitionProperty: "background-color, border-color, box-shadow, backdrop-filter, opacity",
+          style={{
+            transitionProperty:
+              "background-color, border-color, box-shadow, backdrop-filter, opacity",
             transitionDuration: "300ms",
-            transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)"
+            transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
           }}
           onDoubleClick={(e) => {
             e.stopPropagation();
-            handleOpenApp('projects');
+            handleOpenApp("projects");
           }}
         >
           <div className="w-[160px] h-[160px] relative pointer-events-none">
-            <img src={projectFolder} className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0" draggable="false" alt="Projects" />
-            <img src={projectFolderHover} className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100" draggable="false" alt="Projects Hover" />
+            <img
+              src={projectFolder}
+              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0"
+              draggable="false"
+              alt="Projects"
+            />
+            <img
+              src={projectFolderHover}
+              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100"
+              draggable="false"
+              alt="Projects Hover"
+            />
           </div>
-          <span className="text-[18px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide px-3 py-1 rounded pointer-events-none">Projects</span>
+          <span className="text-[18px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide px-3 py-1 rounded pointer-events-none">
+            Projects
+          </span>
         </motion.div>
 
-        
-        {openWindows.map(window => (
+        {openWindows.map((window) => (
           <Window
             key={window.id}
             window={window}
@@ -178,10 +260,9 @@ const Desktop = () => {
             {window.component}
           </Window>
         ))}
-
       </div>
       {/* Draggable Face Widget in Bottom Left Corner */}
-      <FaceWidget />
+      <FaceWidget onClick={() => handleOpenApp("about")} />
 
       <div className="absolute bottom-6 inset-x-0 w-full flex justify-center z-50 pointer-events-none">
         <div className="pointer-events-auto">

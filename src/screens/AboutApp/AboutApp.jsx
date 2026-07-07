@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./AboutApp.module.css";
-import { Sparkles, Users, Palette, Handshake } from "lucide-react";
+import { Sparkles, Users, Palette, Handshake, Download } from "lucide-react";
 import GlassCard from "../../components/ui/GlassCard";
+import GlassButton from "../../components/ui/GlassButton";
 import { useTheme } from "next-themes";
 import logoLight from "../../assets/branding/personal-logo-light.png";
 import logoDark from "../../assets/branding/personal-logo-dark.png";
@@ -63,10 +64,20 @@ const AboutApp = () => {
           <h2 className={styles.subtitle}>
             UI/UX Designer & Front-End Developer
           </h2>
-          <h3>
+          <h3 className={styles.tagline}>
             Visual storyteller turning ideas into digital journeys and visuals
             <br /> that just feel right.
           </h3>
+          <a
+            href="/resume/Harsh_Bhagat_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.downloadLink}
+          >
+            <GlassButton className={styles.downloadBtn}>
+              <Download size={16} /> Download Resume
+            </GlassButton>
+          </a>
         </div>
       </div>
 

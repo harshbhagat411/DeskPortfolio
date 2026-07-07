@@ -108,3 +108,9 @@ button, input, textarea {
   @apply transition-all duration-[250ms] ease-out transform-gpu hover:-translate-y-[2.5px] hover:border-white/50 dark:hover:border-white/25 hover:shadow-[0_12px_32px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.5)];
 }
 
+.glass-btn {
+  @apply backdrop-blur-xl bg-white/5 border border-white/20 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.2)] rounded-xl font-medium px-5 py-2.5 text-sm transition-all duration-[250ms] ease-out transform-gpu hover:-translate-y-[2px] hover:border-white/50 dark:hover:border-white/25 hover:shadow-[0_8px_16px_rgba(0,0,0,0.15),inset_0_1px_1px_rgba(255,255,255,0.3)] active:translate-y-0 active:scale-[0.98];
+  height: 42px;
+  color: var(--text-main);
+}
+
