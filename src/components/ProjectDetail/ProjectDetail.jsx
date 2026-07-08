@@ -43,7 +43,7 @@ const ProjectDetail = ({ project }) => {
   const allScreenshots = [project.heroImage, ...(project.galleryImages || [])].filter(Boolean);
 
   return (
-    <div className="w-full h-full overflow-y-auto bg-transparent text-zinc-900 dark:text-zinc-100 select-text scroll-smooth">
+    <div className="w-full h-full overflow-y-auto bg-transparent text-[var(--theme-text-main)] select-text scroll-smooth">
       <div
         className="max-w-5xl mx-auto flex flex-col"
         style={{ padding: "15px" }}
@@ -51,12 +51,12 @@ const ProjectDetail = ({ project }) => {
         {/* SECTION 1: Header */}
         <div className="mb-16" style={{ paddingBottom: "20px" }}>
           <h1
-            className="text-4xl md:text-5xl font-semibold tracking-tight text-zinc-950 dark:text-white mb-8 leading-none"
+            className="text-4xl md:text-5xl font-semibold tracking-tight text-[var(--theme-text-main)] mb-8 leading-none"
             style={{ paddingBottom: "5px" }}
           >
             {project.title}
           </h1>
-          <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
+          <p className="text-lg md:text-xl text-[var(--theme-text-muted)] font-normal leading-relaxed">
             {project.description}
           </p>
           {/* <br /> */}
@@ -70,23 +70,23 @@ const ProjectDetail = ({ project }) => {
           {/* Left Column */}
           <div className="space-y-6">
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Client
               </span>
-              <span className="text-base md:text-lg font-semibold text-zinc-900 dark:text-zinc-100 block">
+              <span className="text-base md:text-lg font-semibold text-[var(--theme-text-main)] block">
                 {project.client}
               </span>
             </div>
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Project Type
               </span>
-              <span className="text-base md:text-lg font-semibold text-zinc-900 dark:text-zinc-100 block">
+              <span className="text-base md:text-lg font-semibold text-[var(--theme-text-main)] block">
                 {project.projectType}
               </span>
             </div>
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Project in detail
               </span>
               <a
@@ -114,26 +114,26 @@ const ProjectDetail = ({ project }) => {
           {/* Right Column */}
           <div className="space-y-6">
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Year
               </span>
-              <span className="text-base md:text-lg font-semibold text-zinc-900 dark:text-zinc-100 block">
+              <span className="text-base md:text-lg font-semibold text-[var(--theme-text-main)] block">
                 {project.year}
               </span>
             </div>
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Platform
               </span>
-              <span className="text-base md:text-lg font-semibold text-zinc-900 dark:text-zinc-100 block">
+              <span className="text-base md:text-lg font-semibold text-[var(--theme-text-main)] block">
                 {project.platform}
               </span>
             </div>
             <div style={{ paddingBottom: "10px" }}>
-              <span className="text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-500 font-bold block mb-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[var(--theme-text-muted)] font-bold block mb-1.5">
                 Tech Stack
               </span>
-              <span className="text-base md:text-lg font-semibold text-zinc-900 dark:text-zinc-100 block">
+              <span className="text-base md:text-lg font-semibold text-[var(--theme-text-main)] block">
                 {project.technologies.join(", ")}
               </span>
             </div>

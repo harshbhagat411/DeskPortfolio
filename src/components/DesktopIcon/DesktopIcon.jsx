@@ -1,56 +1,85 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./DesktopIcon.module.css";
 import { cn } from "../../lib/utils";
 import { useTheme } from "next-themes";
 import projectIconLight from "../../assets/system/project-icon-light.png";
 import projectIconDark from "../../assets/system/project-icon-dark.png";
+import projectFolder from "../../assets/system/ProjectFolder.png";
+import projectFolderHover from "../../assets/system/ProjectFolderHower.png";
 
-const DesktopIcon = ({ project, isSelected, onClick, onDoubleClick }) => {
-  const [isClicked, setIsClicked] = useState(false);
+const DesktopIcon = ({
+  project,
+  title: propTitle,
+  isFolder = false,
+  isSelected,
+  onClick,
+  onDoubleClick,
+}) => {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  const handleClick = async (e) => {
+  const title = project ? project.title : propTitle;
+
+  const handleClick = (e) => {
     e.stopPropagation();
-    setIsClicked(true);
     onClick(e);
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    setIsClicked(false);
+  };
+
+  const handleDoubleClick = (e) => {
+    e.stopPropagation();
+    onDoubleClick();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onDoubleClick();
+    }
   };
 
   return (
     <div
-      className={styles.iconContainer}
       onClick={handleClick}
-      onDoubleClick={(e) => {
-        e.stopPropagation();
-        onDoubleClick();
-      }}
+      onDoubleClick={handleDoubleClick}
+      onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      aria-label={`Open project ${project.title}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onDoubleClick();
-        }
-      }}
+      aria-label={`Open ${isFolder ? "folder" : "project"} ${title}`}
+      className={cn(
+        styles.container,
+        isFolder ? styles.containerFolder : styles.containerFile,
+        isSelected && styles.containerSelected,
+        "group"
+      )}
     >
-      <div
-        className={cn(
-          styles.screenshotContainer,
-          isClicked && styles.clickScale,
-        )}
-      >
-        <img
-          src={isDark ? projectIconDark : projectIconLight}
-          alt={project.title}
-          className={styles.screenshot}
-          draggable="false"
-        />
-      </div>
+      {isFolder ? (
+        <div className={styles.folderIconWrapper}>
+          <img
+            src={projectFolder}
+            className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0"
+            draggable="false"
+            alt={title}
+          />
+          <img
+            src={projectFolderHover}
+            className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100"
+            draggable="false"
+            alt={`${title} Hover`}
+          />
+        </div>
+      ) : (
+        <div className={styles.fileIconWrapper}>
+          <img
+            src={isDark ? projectIconDark : projectIconLight}
+            alt={title}
+            className="w-full h-full object-contain"
+            draggable="false"
+          />
+        </div>
+      )}
+      
       <span className={cn(styles.label, isSelected && styles.labelSelected)}>
-        {project.title}
+        {title}
       </span>
     </div>
   );

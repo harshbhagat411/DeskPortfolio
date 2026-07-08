@@ -4,7 +4,6 @@ import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { GlassDock } from "../ui/liquid-glass";
 import { ToggleTheme } from "../ui/toggle-theme";
-import { useTheme } from "next-themes";
 
 import Window from "../Window/Window";
 import FaceWidget from "../ui/FaceWidget";
@@ -24,8 +23,6 @@ import profileDark from "../../assets/icon/profile_dark_mode.png";
 import instaLogo from "../../assets/icon/Instagram_icon.png";
 import linkedinLogo from "../../assets/icon/LinkedIn_logo.png";
 import instaDesignLogo from "../../assets/icon/Instagram_design_icon.png";
-import projectFolder from "../../assets/system/ProjectFolder.png";
-import projectFolderHover from "../../assets/system/ProjectFolderHower.png";
 
 const InstaDesignIcon = ({ size, className }) => (
   <div
@@ -104,10 +101,7 @@ const appsConfig = [
     component: <DesignsApp />,
   },
 ];
-
 const Desktop = () => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
   const [openWindows, setOpenWindows] = useState([]);
   const [activeWindowId, setActiveWindowId] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -313,35 +307,17 @@ const Desktop = () => {
           drag
           dragMomentum={false}
           initial={folderPos}
-          className="absolute flex flex-col items-center justify-center gap-2 cursor-pointer w-[130px] rounded-[14px] border border-transparent hover:bg-[var(--theme-folder-hover)] hover:backdrop-blur-md hover:border-[var(--theme-accent-muted)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] p-3 z-0 group"
-          style={{
-            transitionProperty:
-              "background-color, border-color, box-shadow, backdrop-filter, opacity",
-            transitionDuration: "300ms",
-            transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
-          onDoubleClick={(e) => {
-            e.stopPropagation();
-            handleOpenApp("designs");
-          }}
+          className="absolute cursor-grab active:cursor-grabbing z-10"
+          style={{ touchAction: "none" }}
         >
-          <div className="w-[90px] h-[90px] relative pointer-events-none">
-            <img
-              src={projectFolder}
-              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-100 group-hover:opacity-0"
-              draggable="false"
-              alt="Designs"
-            />
-            <img
-              src={projectFolderHover}
-              className="absolute inset-0 w-full h-full object-contain transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100"
-              draggable="false"
-              alt="Designs Hover"
-            />
-          </div>
-          <span className="text-[15px] font-semibold text-gray-800 dark:text-gray-100 font-sans tracking-wide px-2 py-0.5 rounded pointer-events-none">
-            Designs
-          </span>
+          <DesktopIcon
+            id="designs"
+            title="Designs"
+            isFolder={true}
+            isSelected={selectedProjectId === "designs"}
+            onClick={() => setSelectedProjectId("designs")}
+            onDoubleClick={() => handleOpenApp("designs")}
+          />
         </motion.div>
 
         {/* Desktop Icons for standalone projects (staggered & draggable) */}

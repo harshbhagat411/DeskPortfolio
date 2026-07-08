@@ -1,67 +1,72 @@
-.iconContainer {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 110px;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  padding: 12px;
   user-select: none;
   outline: none;
   position: relative;
   /* GPU acceleration container */
   transform: translateZ(0);
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              backdrop-filter 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              -webkit-backdrop-filter 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 150ms ease-out;
 }
 
-.screenshotContainer {
+.containerFolder {
+  width: 130px;
+}
+
+.containerFile {
+  width: 110px;
+}
+
+/* Hover and selection styles copied from Designs folder */
+.container:hover,
+.containerSelected {
+  background-color: var(--theme-folder-hover);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: var(--theme-accent-muted);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Active pressed scale */
+.container:active {
+  transform: scale(0.98);
+}
+
+.folderIconWrapper {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  pointer-events: none;
+}
+
+.fileIconWrapper {
   width: 72px;
   height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border-radius: 0;
-  border: none;
-  background: transparent;
-
-  /* GPU transitions */
-  transition:
-    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 280ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, filter;
-  transform-origin: center bottom;
-
-  /* Soft shadow filter on custom shape PNG icons */
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-}
-
-.screenshot {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
   pointer-events: none;
 }
 
-/* Hover behaviors */
-.iconContainer:hover .screenshotContainer {
-  transform: translateY(-4px) scale(1.04);
-  /* Slightly elevate and brighten the shadow */
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
-}
-
-/* Click scale compression animation */
-.clickScale {
-  transform: scale(0.98) translateY(0) !important;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)) !important;
-  transition:
-    transform 100ms ease-out,
-    filter 100ms ease-out !important;
-}
-
-/* Typography styles matching existing labels */
 .label {
-  margin-top: 8px;
   font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
   text-align: center;
   color: #1e1e1e;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
@@ -74,12 +79,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
-  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  transition: background-color 300ms ease-out, color 300ms ease-out;
   border: 1px solid transparent;
+  pointer-events: none;
 }
 
 :global(.dark) .label {
-  color: #ffffff;
+  color: #f3f4f6;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
@@ -87,26 +93,25 @@
   background-color: var(--theme-accent, var(--primary-color)) !important;
   color: white !important;
   text-shadow: none !important;
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Responsive constraints */
 @media (max-width: 1024px) {
-  .iconContainer {
+  .containerFile {
     width: 95px;
   }
-  .screenshotContainer {
+  .fileIconWrapper {
     width: 62px;
     height: 62px;
   }
 }
 
 @media (max-width: 640px) {
-  .iconContainer {
+  .containerFile {
     width: 80px;
   }
-  .screenshotContainer {
+  .fileIconWrapper {
     width: 52px;
     height: 52px;
   }

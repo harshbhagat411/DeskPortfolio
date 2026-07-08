@@ -106,7 +106,7 @@ const DesignsApp = () => {
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-2.5 bg-white/10 hover:bg-white/20 rounded-full outline-none"
+            className="absolute top-6 right-6 z-50 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-2.5 bg-white/10 hover:bg-white/20 rounded-full outline-none"
             aria-label="Close lightbox"
           >
             <X size={22} />
@@ -118,7 +118,7 @@ const DesignsApp = () => {
               e.stopPropagation();
               handlePrev();
             }}
-            className="absolute left-6 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-3 bg-white/10 hover:bg-white/20 rounded-full outline-none"
+            className="absolute left-6 z-50 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-3 bg-white/10 hover:bg-white/20 rounded-full outline-none"
             aria-label="Previous image"
           >
             <ChevronLeft size={26} />
@@ -130,7 +130,7 @@ const DesignsApp = () => {
               e.stopPropagation();
               handleNext();
             }}
-            className="absolute right-6 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-3 bg-white/10 hover:bg-white/20 rounded-full outline-none"
+            className="absolute right-6 z-50 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer p-3 bg-white/10 hover:bg-white/20 rounded-full outline-none"
             aria-label="Next image"
           >
             <ChevronRight size={26} />

@@ -30,7 +30,7 @@ export const themesMap = {
     wallpaper: `url(${oceanBg})`,
     wallpaperOpacity: "1",
     glassBg: "rgba(100, 199, 255, 0.08)",
-    glassBgContent: "rgba(20, 30, 50, 0.4)",
+    glassBgContent: "rgba(235, 245, 255, 0.5)",
     glassBorder: "rgba(100, 199, 255, 0.25)",
     shadow: "0 12px 48px rgba(10, 30, 60, 0.45)",
     selection: "rgba(100, 199, 255, 0.3)",
