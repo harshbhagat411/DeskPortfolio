@@ -23,6 +23,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
       }}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
+      style={{ padding: "5px" }}
       className={`
         group
         flex
