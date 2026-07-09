@@ -71,7 +71,7 @@ const DesignsApp = () => {
             <div
               key={item.id}
               onClick={() => handleImageClick(index)}
-              className="group relative break-inside-avoid mb-6 rounded-2xl overflow-hidden bg-white/5 dark:bg-black/5 border border-zinc-200/30 dark:border-white/10 shadow-md hover:shadow-2xl transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] cursor-pointer"
+              className="group relative break-inside-avoid mb-6 rounded-lg overflow-hidden bg-white/5 dark:bg-black/5 border border-zinc-200/30 dark:border-white/10 shadow-md hover:shadow-2xl transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] cursor-pointer"
             >
               <img
                 src={item.image}
@@ -144,7 +144,7 @@ const DesignsApp = () => {
             <img
               src={designGallery[activeImageIndex].image}
               alt={designGallery[activeImageIndex].title}
-              className="max-w-full max-h-[72vh] object-contain rounded-xl shadow-2xl border border-white/10"
+              className="max-w-full max-h-[72vh] object-contain rounded-lg shadow-2xl border border-white/10"
               draggable="false"
             />
             <div className="mt-5 text-center text-white">
