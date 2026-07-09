@@ -249,16 +249,31 @@ const Spotlight: React.FC<SpotlightProps> = ({ onOpenApp, onOpenProject }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md flex items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-xl flex items-center justify-center px-5"
           onClick={() => setIsOpen(false)}
         >
           {/* Spotlight Dialog Box */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="w-full max-w-[720px] mx-4 rounded-2xl overflow-hidden border border-zinc-200/25 dark:border-white/10 bg-white/60 dark:bg-zinc-900/60 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl flex flex-col"
+            initial={{
+              opacity: 0,
+              scale: 0.95,
+              y: -12,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.96,
+              y: -12,
+            }}
+            transition={{
+              duration: 0.22,
+              ease: "easeOut",
+            }}
+            className="w-full max-w-[680px] mx-4 rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/80 backdrop-blur-3xl shadow-[0_35px_90px_rgba(0,0,0,.45)] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Search Input */}
@@ -269,13 +284,13 @@ const Spotlight: React.FC<SpotlightProps> = ({ onOpenApp, onOpenProject }) => {
             />
 
             {/* Results Scrollbox */}
-            <div className="max-h-[360px] overflow-y-auto p-3 flex flex-col scroll-smooth">
+            <div className="max-h-[380px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent px-3 py-3 flex flex-col scroll-smooth">
               {isEmptyState && (
-                <div className="flex flex-col items-center justify-center py-6 text-center">
-                  <span className="text-[14px] font-semibold text-[var(--theme-text-main)] mb-1">
+                <div className="flex flex-col items-center justify-center py-14 text-center">
+                  <span className="text-lg font-semibold text-[var(--theme-text-main)]">
                     No results found
                   </span>
-                  <span className="text-[11px] text-[var(--theme-text-muted)] mb-5">
+                  <span className="mt-2 max-w-sm text-sm text-[var(--theme-text-muted)]">
                     Try searching for different keywords or check out the
                     suggestions below.
                   </span>

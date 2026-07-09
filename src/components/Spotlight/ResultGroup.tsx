@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { SearchItem } from "./SearchIndex";
 import SearchResult from "./SearchResult";
 
@@ -20,11 +21,30 @@ const ResultGroup: React.FC<ResultGroupProps> = ({
   if (items.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-1 mb-3.5 last:mb-0">
-      <div className="px-4 py-1 text-[10px] font-extrabold tracking-wider text-[var(--theme-text-muted)] uppercase select-none opacity-80">
-        {category}
+    <motion.section
+      layout
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{
+        duration: 0.18,
+      }}
+      className="mb-7 last:mb-0"
+    >
+      {/* Category Header */}
+
+      <div className="flex items-center px-3 pt-4 pb-1.5">
+        <span
+          className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--theme-text-muted)]/80 select-none"
+          style={{ padding: "5px" }}
+        >
+          {category}
+        </span>
       </div>
-      <div className="flex flex-col gap-0.5">
+
+      {/* Results */}
+
+      <div className="flex flex-col gap-2" style={{ padding: "5px" }}>
         {items.map((item) => (
           <SearchResult
             key={item.id}
@@ -35,7 +55,7 @@ const ResultGroup: React.FC<ResultGroupProps> = ({
           />
         ))}
       </div>
-    </div>
+    </motion.section>
   );
 };
 
