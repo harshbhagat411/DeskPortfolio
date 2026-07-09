@@ -4,6 +4,8 @@ import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { GlassDock } from "../ui/liquid-glass";
 import { ToggleTheme } from "../ui/toggle-theme";
+import Spotlight from "../Spotlight/Spotlight";
+import ProjectsApp from "../../screens/ProjectsApp/ProjectsApp";
 
 import Window from "../Window/Window";
 import FaceWidget from "../ui/FaceWidget";
@@ -86,6 +88,41 @@ const ProfileIcon = ({ size, className }) => (
   </div>
 );
 
+const ResumeApp = () => (
+  <div className="w-full h-full bg-zinc-900 flex flex-col">
+    <iframe
+      src="/resume/Harsh_Bhagat_Resume.pdf"
+      title="Resume"
+      className="w-full h-full border-none"
+    />
+  </div>
+);
+
+const ContactApp = () => (
+  <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-transparent">
+    <h2 className="text-2xl font-bold mb-4 text-[var(--theme-text-main)]">Get in Touch</h2>
+    <p className="text-[var(--theme-text-muted)] mb-6 max-w-md leading-relaxed select-text">
+      I'd love to connect! Feel free to reach out via email or any of my social profiles.
+    </p>
+    <div className="flex gap-4">
+      <a 
+        href="mailto:harsh.bhagat411@gmail.com" 
+        className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors cursor-pointer select-none"
+      >
+        Email Me
+      </a>
+      <a 
+        href="https://www.linkedin.com/in/harsh-bhagat-863741356/" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-[var(--theme-text-main)] border border-[var(--theme-glass-border)] rounded-xl font-medium transition-colors cursor-pointer select-none"
+      >
+        LinkedIn
+      </a>
+    </div>
+  </div>
+);
+
 // Define the available applicationss
 const appsConfig = [
   {
@@ -95,10 +132,42 @@ const appsConfig = [
     component: <AboutApp />,
   },
   {
+    id: "projects",
+    title: "Projects",
+    icon: "Layers",
+    component: <ProjectsApp />,
+    defaultWidth: 950,
+    defaultHeight: 650,
+  },
+  {
     id: "designs",
     title: "Designs",
     icon: "Folder",
     component: <DesignsApp />,
+  },
+  {
+    id: "resume",
+    title: "Resume Preview",
+    icon: "FileText",
+    component: <ResumeApp />,
+    defaultWidth: 850,
+    defaultHeight: 600,
+  },
+  {
+    id: "contact",
+    title: "Contact",
+    icon: "Phone",
+    component: <ContactApp />,
+    defaultWidth: 500,
+    defaultHeight: 400,
+  },
+  {
+    id: "settings",
+    title: "Settings",
+    icon: "Settings",
+    component: <ThemeCenterApp />,
+    defaultWidth: 800,
+    defaultHeight: 550,
   },
 ];
 const Desktop = () => {
@@ -253,7 +322,7 @@ const Desktop = () => {
 
   const dockIcons = [
     ...appsConfig
-      .filter((app) => app.id !== "designs")
+      .filter((app) => app.id === "about")
       .map((app) => ({
         label: app.title,
         icon: app.icon ? LucideIcons[app.icon] || LucideIcons.File : null,
@@ -366,11 +435,27 @@ const Desktop = () => {
           <GlassDock icons={dockIcons} />
         </div>
       </div>
-
-      <div className="absolute top-6 right-6 z-50">
+      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent("openspotlight"))}
+          className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-zinc-200/25 dark:border-white/10 flex items-center justify-center text-[var(--theme-text-main)] hover:scale-105 transition-all duration-200 cursor-pointer shadow-md backdrop-blur-md outline-none"
+          title="Search (Ctrl + K / Cmd + Space)"
+          aria-label="Search"
+        >
+          <LucideIcons.Search size={18} strokeWidth={2.5} />
+        </button>
         <ToggleTheme />
       </div>
 
+      <Spotlight
+        onOpenApp={handleOpenApp}
+        onOpenProject={(projectId) => {
+          const project = projects.find((p) => p.id === projectId);
+          if (project) {
+            handleOpenProjectApp(project);
+          }
+        }}
+      />
       {/* Calendar Desktop Widget */}
       <CalendarWidget />
 
