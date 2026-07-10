@@ -83,18 +83,22 @@ const Window = ({ window: appWindow, isActive, onActivate, onClose, onMinimize, 
       <div 
         className={styles.header} 
         onPointerDown={handlePointerDown}
-        onDoubleClick={onMaximize}
+        onDoubleClick={!appWindow.hideMaximize ? onMaximize : undefined}
       >
         <div className={styles.controls}>
           <button className={`${styles.controlBtn} ${styles.close}`} onClick={(e) => { e.stopPropagation(); onClose(); }}>
             <X size={8} strokeWidth={3} />
           </button>
-          <button className={`${styles.controlBtn} ${styles.minimize}`} onClick={(e) => { e.stopPropagation(); onMinimize(); }}>
-            <Minus size={8} strokeWidth={3} />
-          </button>
-          <button className={`${styles.controlBtn} ${styles.maximize}`} onClick={(e) => { e.stopPropagation(); onMaximize(); }}>
-            {appWindow.isMaximized ? <Copy size={8} strokeWidth={2} /> : <Square size={8} strokeWidth={3} />}
-          </button>
+          {!appWindow.hideMinimize && (
+            <button className={`${styles.controlBtn} ${styles.minimize}`} onClick={(e) => { e.stopPropagation(); onMinimize(); }}>
+              <Minus size={8} strokeWidth={3} />
+            </button>
+          )}
+          {!appWindow.hideMaximize && (
+            <button className={`${styles.controlBtn} ${styles.maximize}`} onClick={(e) => { e.stopPropagation(); onMaximize(); }}>
+              {appWindow.isMaximized ? <Copy size={8} strokeWidth={2} /> : <Square size={8} strokeWidth={3} />}
+            </button>
+          )}
         </div>
         
         <div className={styles.title}>

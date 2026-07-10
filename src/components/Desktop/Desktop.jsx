@@ -20,6 +20,9 @@ import ThemeWidget from "../widgets/ThemeWidget";
 import AboutApp from "../../screens/AboutApp/AboutApp";
 import DesignsApp from "../../screens/DesignsApp/DesignsApp";
 import ThemeCenterApp from "../../screens/ThemeCenterApp/ThemeCenterApp";
+import AboutPortfolioWindow from "../AboutPortfolioWindow";
+import ContactWindow from "../ContactWindow";
+import DesktopContextMenu from "../DesktopContextMenu";
 import profileLight from "../../assets/icon/profile_light_mode.png";
 import profileDark from "../../assets/icon/profile_dark_mode.png";
 import instaLogo from "../../assets/icon/Instagram_icon.png";
@@ -98,38 +101,23 @@ const ResumeApp = () => (
   </div>
 );
 
-const ContactApp = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-transparent">
-    <h2 className="text-2xl font-bold mb-4 text-[var(--theme-text-main)]">Get in Touch</h2>
-    <p className="text-[var(--theme-text-muted)] mb-6 max-w-md leading-relaxed select-text">
-      I'd love to connect! Feel free to reach out via email or any of my social profiles.
-    </p>
-    <div className="flex gap-4">
-      <a 
-        href="mailto:harsh.bhagat411@gmail.com" 
-        className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors cursor-pointer select-none"
-      >
-        Email Me
-      </a>
-      <a 
-        href="https://www.linkedin.com/in/harsh-bhagat-863741356/" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-[var(--theme-text-main)] border border-[var(--theme-glass-border)] rounded-xl font-medium transition-colors cursor-pointer select-none"
-      >
-        LinkedIn
-      </a>
-    </div>
-  </div>
-);
-
-// Define the available applicationss
+// Define the available applications
 const appsConfig = [
   {
     id: "about",
     title: "About Me",
     customIcon: ProfileIcon,
     component: <AboutApp />,
+  },
+  {
+    id: "about-portfolio",
+    title: "About this Portfolio",
+    icon: "Info",
+    component: <AboutPortfolioWindow />,
+    defaultWidth: 360,
+    defaultHeight: 400,
+    hideMinimize: true,
+    hideMaximize: true,
   },
   {
     id: "projects",
@@ -157,9 +145,11 @@ const appsConfig = [
     id: "contact",
     title: "Contact",
     icon: "Phone",
-    component: <ContactApp />,
+    component: <ContactWindow />,
     defaultWidth: 500,
     defaultHeight: 400,
+    hideMinimize: true,
+    hideMaximize: true,
   },
   {
     id: "settings",
@@ -176,6 +166,7 @@ const Desktop = () => {
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [folderPos, setFolderPos] = useState({ x: 120, y: 100 });
   const [projectPositions, setProjectPositions] = useState([]);
+  const [contextMenu, setContextMenu] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -288,6 +279,36 @@ const Desktop = () => {
     setActiveWindowId(appId);
   };
 
+  const handleContextMenu = (e) => {
+    if (
+      e.target.closest(`.${styles.window}`) ||
+      e.target.closest("button") ||
+      e.target.closest("a") ||
+      e.target.closest("input") ||
+      e.target.closest(".cursor-grab") ||
+      e.target.closest(".pointer-events-auto")
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+    });
+  };
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if (e.ctrlKey && (e.key === "n" || e.key === "N")) {
+        e.preventDefault();
+        handleOpenApp("about");
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [openWindows]);
+
   const handleCloseWindow = (appId) => {
     setOpenWindows((prev) => prev.filter((w) => w.id !== appId));
     if (activeWindowId === appId) {
@@ -368,7 +389,9 @@ const Desktop = () => {
         onClick={() => {
           setActiveWindowId(null);
           setSelectedProjectId(null);
+          setContextMenu(null);
         }}
+        onContextMenu={handleContextMenu}
       >
         {/* Designs Desktop Folder */}
         <motion.div
@@ -464,6 +487,26 @@ const Desktop = () => {
 
       {/* Theme Desktop Widget */}
       <ThemeWidget />
+
+      {contextMenu && (
+        <DesktopContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={() => setContextMenu(null)}
+          onNewWindow={() => {
+            handleOpenApp("about");
+            setContextMenu(null);
+          }}
+          onAboutPortfolio={() => {
+            handleOpenApp("about-portfolio");
+            setContextMenu(null);
+          }}
+          onContact={() => {
+            handleOpenApp("contact");
+            setContextMenu(null);
+          }}
+        />
+      )}
     </div>
   );
 };
