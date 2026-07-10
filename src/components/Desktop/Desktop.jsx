@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Desktop.module.css";
 import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { GlassDock } from "../ui/liquid-glass";
+import { useDeviceType } from "../../hooks/useDeviceType";
 import { ToggleTheme } from "../ui/toggle-theme";
 import Spotlight from "../Spotlight/Spotlight";
 import ProjectsApp from "../../screens/ProjectsApp/ProjectsApp";
@@ -161,6 +162,9 @@ const appsConfig = [
   },
 ];
 const Desktop = () => {
+  const deviceType = useDeviceType();
+  const isTablet = deviceType === "tablet";
+
   const [openWindows, setOpenWindows] = useState([]);
   const [activeWindowId, setActiveWindowId] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -168,13 +172,77 @@ const Desktop = () => {
   const [projectPositions, setProjectPositions] = useState([]);
   const [contextMenu, setContextMenu] = useState(null);
 
+  const touchTimeoutRef = useRef(null);
+  const touchStartPosRef = useRef(null);
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length !== 1) return;
+
+    const touch = e.touches[0];
+    
+    // Ignore if touching interactive elements
+    if (
+      e.target.closest(`.${styles.window}`) ||
+      e.target.closest("button") ||
+      e.target.closest("a") ||
+      e.target.closest("input") ||
+      e.target.closest(".cursor-grab") ||
+      e.target.closest(".pointer-events-auto") ||
+      e.target.closest("[role='button']")
+    ) {
+      return;
+    }
+
+    touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+
+    touchTimeoutRef.current = setTimeout(() => {
+      setContextMenu({
+        x: touch.clientX,
+        y: touch.clientY,
+      });
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+      touchTimeoutRef.current = null;
+    }, 600);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!touchStartPosRef.current) return;
+    const touch = e.touches[0];
+    const dx = touch.clientX - touchStartPosRef.current.x;
+    const dy = touch.clientY - touchStartPosRef.current.y;
+    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
+        touchTimeoutRef.current = null;
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
+    touchStartPosRef.current = null;
+  };
+
+  useEffect(() => {
+    return () => {
+      if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      const isMobile = width <= 640;
-      const isTablet = width <= 1024;
+      const isMobile = width < 768;
+      const isTablet = width >= 768 && width < 1200;
 
       setFolderPos({
         x: width / 2 - 180,
@@ -183,28 +251,28 @@ const Desktop = () => {
 
       const coordsMap = {
         "tasker-ai": {
-          x: isMobile ? 20 : isTablet ? width * 0.15 : width * 0.2,
-          y: isMobile ? 180 : isTablet ? height * 0.18 : height * 0.2,
+          x: isMobile ? 20 : isTablet ? width * 0.14 : width * 0.2,
+          y: isMobile ? 180 : isTablet ? height * 0.16 : height * 0.2,
         },
         "portfolio-os": {
-          x: isMobile ? width * 0.55 : isTablet ? width * 0.55 : width * 0.52,
-          y: isMobile ? 180 : isTablet ? height * 0.2 : height * 0.22,
+          x: isMobile ? width * 0.55 : isTablet ? width * 0.56 : width * 0.52,
+          y: isMobile ? 180 : isTablet ? height * 0.18 : height * 0.22,
         },
         "flavora-bistro": {
-          x: isMobile ? width * 0.55 : isTablet ? width * 0.65 : width * 0.72,
-          y: isMobile ? 320 : isTablet ? height * 0.35 : height * 0.38,
+          x: isMobile ? width * 0.55 : isTablet ? width * 0.36 : width * 0.72,
+          y: isMobile ? 320 : isTablet ? height * 0.30 : height * 0.38,
         },
         "heart-disease-ai": {
-          x: isMobile ? width * 0.55 : isTablet ? width * 0.55 : width * 0.54,
-          y: isMobile ? 460 : isTablet ? height * 0.52 : height * 0.56,
+          x: isMobile ? width * 0.55 : isTablet ? width * 0.56 : width * 0.54,
+          y: isMobile ? 460 : isTablet ? height * 0.48 : height * 0.56,
         },
         "ai-attendance": {
-          x: isMobile ? 20 : isTablet ? width * 0.25 : width * 0.28,
-          y: isMobile ? 460 : isTablet ? height * 0.68 : height * 0.73,
+          x: isMobile ? 20 : isTablet ? width * 0.36 : width * 0.28,
+          y: isMobile ? 460 : isTablet ? height * 0.64 : height * 0.73,
         },
         "ag-diamond": {
-          x: isMobile ? 20 : isTablet ? width * 0.15 : width * 0.18,
-          y: isMobile ? 320 : isTablet ? height * 0.45 : height * 0.49,
+          x: isMobile ? 20 : isTablet ? width * 0.14 : width * 0.18,
+          y: isMobile ? 320 : isTablet ? height * 0.44 : height * 0.49,
         },
       };
 
@@ -392,6 +460,9 @@ const Desktop = () => {
           setContextMenu(null);
         }}
         onContextMenu={handleContextMenu}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {/* Designs Desktop Folder */}
         <motion.div
@@ -453,12 +524,12 @@ const Desktop = () => {
       {/* Draggable Face Widget in Bottom Left Corner */}
       <FaceWidget onClick={() => handleOpenApp("about")} />
 
-      <div className="absolute bottom-6 inset-x-0 w-full flex justify-center z-50 pointer-events-none">
+      <div className={`absolute inset-x-0 w-full flex justify-center z-50 pointer-events-none ${isTablet ? "bottom-12" : "bottom-6"}`}>
         <div className="pointer-events-auto">
           <GlassDock icons={dockIcons} />
         </div>
       </div>
-      <div className="absolute top-6 right-6 z-50 flex items-center gap-3">
+      <div className={`absolute z-50 flex items-center gap-3 ${isTablet ? "top-10 right-10" : "top-6 right-6"}`}>
         <button
           onClick={() => window.dispatchEvent(new CustomEvent("openspotlight"))}
           className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-zinc-200/25 dark:border-white/10 flex items-center justify-center text-[var(--theme-text-main)] hover:scale-105 transition-all duration-200 cursor-pointer shadow-md backdrop-blur-md outline-none"

@@ -11,12 +11,15 @@ import { ChevronRight } from "lucide-react";
 import GlassCard from "./GlassCard";
 import headImg from "../../assets/avatar/head.png";
 import { cn } from "../../lib/utils";
+import { useDeviceType } from "../../hooks/useDeviceType";
 
 interface FaceWidgetProps {
   onClick?: () => void;
 }
 
 export const FaceWidget = ({ onClick }: FaceWidgetProps) => {
+  const deviceType = useDeviceType();
+  const isTablet = deviceType === "tablet";
   const shouldReduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -111,7 +114,10 @@ export const FaceWidget = ({ onClick }: FaceWidgetProps) => {
       role="button"
       tabIndex={0}
       aria-label="Open Profile"
-      className="absolute left-6 bottom-6 z-50 select-none rounded-[20px] outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4"
+      className={cn(
+        "absolute left-6 z-50 select-none rounded-[20px] outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-4",
+        isTablet ? "bottom-8" : "bottom-6"
+      )}
       style={{
         cursor: isHovered ? "pointer" : "grab",
       }}
@@ -134,7 +140,8 @@ export const FaceWidget = ({ onClick }: FaceWidgetProps) => {
         <GlassCard
           hoverType="none"
           className={cn(
-            "flex items-center justify-center p-4 transition-all duration-300",
+            "flex items-center justify-center transition-all duration-300",
+            isTablet ? "w-[280px] h-[215px] p-5" : "p-4",
             isHovered
               ? "border-white/50 dark:border-white/25 shadow-[0_12px_40px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.5)]"
               : "border-white/30 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)]",

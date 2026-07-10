@@ -3,14 +3,29 @@ import styles from './Window.module.css';
 import { X, Minus, Square, Copy } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
+import { useDeviceType } from '../../hooks/useDeviceType';
+
 const Window = ({ window: appWindow, isActive, onActivate, onClose, onMinimize, onMaximize, children }) => {
+  const deviceType = useDeviceType();
+  const isTablet = deviceType === 'tablet';
+
+  const rawWidth = appWindow.defaultWidth || 800;
+  const rawHeight = appWindow.defaultHeight || 500;
+
+  const initialWidth = isTablet 
+    ? Math.min(rawWidth * 0.85, window.innerWidth - 32)
+    : rawWidth;
+  const initialHeight = isTablet 
+    ? Math.min(rawHeight * 0.85, window.innerHeight - 80)
+    : rawHeight;
+
   const [position, setPosition] = useState({
-    x: window.innerWidth / 2 - (appWindow.defaultWidth ? appWindow.defaultWidth / 2 : 400),
-    y: window.innerHeight / 2 - (appWindow.defaultHeight ? appWindow.defaultHeight / 2 : 250)
+    x: window.innerWidth / 2 - initialWidth / 2,
+    y: window.innerHeight / 2 - initialHeight / 2
   });
   const [size, setSize] = useState({
-    width: appWindow.defaultWidth || 800,
-    height: appWindow.defaultHeight || 500
+    width: initialWidth,
+    height: initialHeight
   });
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef(null);

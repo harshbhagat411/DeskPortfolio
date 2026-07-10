@@ -96,3 +96,22 @@
   position: relative;
   background: var(--window-content-bg);
 }
+
+/* Tablet touch optimization overrides */
+:global(.tablet-version) .controls {
+  gap: 16px !important;
+}
+
+:global(.tablet-version) .controlBtn {
+  position: relative;
+}
+
+:global(.tablet-version) .controlBtn::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  right: -14px;
+  bottom: -14px;
+}
+

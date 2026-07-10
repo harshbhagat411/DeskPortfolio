@@ -116,3 +116,34 @@
     height: 52px;
   }
 }
+
+/* Tablet touch optimization overrides */
+:global(.tablet-version) .container {
+  padding: 14px !important; /* increased hit target comfort */
+  gap: 10px !important;
+}
+
+:global(.tablet-version) .containerFolder {
+  width: 140px !important; /* 8% increase from 130px */
+}
+
+:global(.tablet-version) .containerFile {
+  width: 118px !important; /* 8% increase from 110px */
+}
+
+:global(.tablet-version) .folderIconWrapper {
+  width: 97px !important; /* 8% increase from 90px */
+  height: 97px !important;
+}
+
+:global(.tablet-version) .fileIconWrapper {
+  width: 78px !important; /* 8% increase from 72px */
+  height: 78px !important;
+}
+
+:global(.tablet-version) .label {
+  font-size: 16px !important; /* slightly increased */
+  line-height: 1.4 !important; /* improved line-height */
+}
+
+

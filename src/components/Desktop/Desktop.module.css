@@ -13,4 +13,8 @@
   padding: 1rem;
 }
 
+:global(.tablet-version) .workspace {
+  padding: 0.5rem !important;
+}
+
 
