@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useTheme } from "next-themes";
-import { BGPattern } from "./components/ui/bg-pattern";
-import Desktop from "./components/Desktop/Desktop";
-import { applyTheme, getSavedTheme } from "./lib/theme";
-import "./index.css";
+import { BGPattern } from "../components/ui/bg-pattern";
+import Desktop from "../components/Desktop/Desktop";
+import { applyTheme, getSavedTheme } from "../lib/theme";
+import "../index.css";
 
-function App() {
+export const DesktopShell: React.FC = () => {
   const { theme } = useTheme();
 
   // Use a lighter gray for light mode pattern, darker gray for dark mode
@@ -30,6 +30,6 @@ function App() {
       <Desktop />
     </div>
   );
-}
+};
 
-export default App;
+export default DesktopShell;
