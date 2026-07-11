@@ -7,33 +7,7 @@ import { useTheme } from "next-themes";
 import logoLight from "../../assets/branding/personal-logo-light.png";
 import logoDark from "../../assets/branding/personal-logo-dark.png";
 
-const skills = [
-  "User Research",
-  "Wireframing",
-  "Prototyping",
-  "Design Systems",
-  "JavaScript",
-  "React.js",
-  "Node.js",
-  "Typescript",
-  "HTML5 & CSS3",
-  "Tailwind CSS",
-  "Python",
-  "C++",
-  "SQL",
-  "Git & GitHub",
-];
-
-const tools = [
-  "Figma",
-  "Adobe Photoshop",
-  "Adobe Illustrator",
-  "Canva",
-  "Visual Studio Code",
-  "Android Studio",
-  "GitHub ",
-  "Antigravity",
-];
+import { skills, tools } from "../../data/aboutData";
 
 const AboutApp = () => {
   const { resolvedTheme } = useTheme();

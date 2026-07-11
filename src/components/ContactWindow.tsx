@@ -2,6 +2,7 @@ import React from "react";
 import { Mail } from "lucide-react";
 import instaLogo from "../assets/icon/Instagram_icon.png";
 import linkedinLogo from "../assets/icon/LinkedIn_logo.png";
+import { contactData } from "../data/contactData";
 
 interface ContactItem {
   icon: React.ComponentType<{ className?: string }>;
@@ -29,32 +30,17 @@ const InstagramIcon = ({ className }: { className?: string }) => (
 );
 
 const ContactWindow = () => {
-  const contactItems: ContactItem[] = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "harshbhagat411@gmail.com",
-      href: "mailto:harshbhagat411@gmail.com",
-    },
-    {
-      icon: LinkedinIcon,
-      label: "LinkedIn",
-      value: "harsh-bhagat-863741356",
-      href: "https://www.linkedin.com/in/harsh-bhagat-863741356/",
-    },
-    {
-      icon: InstagramIcon,
-      label: "Instagram (Design)",
-      value: "@harshui.ux",
-      href: "https://www.instagram.com/harshui.ux/",
-    },
-    {
-      icon: InstagramIcon,
-      label: "Instagram (Personal)",
-      value: "@harsh.bhagat411",
-      href: "https://www.instagram.com/harsh.bhagat411/",
-    },
-  ];
+  const contactItems: ContactItem[] = contactData.map(item => {
+    let icon = Mail;
+    if (item.id === "linkedin") icon = LinkedinIcon;
+    else if (item.id.startsWith("instagram")) icon = InstagramIcon;
+    return {
+      icon,
+      label: item.label,
+      value: item.value,
+      href: item.href
+    };
+  });
 
   return (
     <div
