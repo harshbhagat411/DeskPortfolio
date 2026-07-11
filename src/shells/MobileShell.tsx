@@ -242,7 +242,7 @@ export const MobileShell: React.FC = () => {
           <img
             src={headImg}
             alt="Floating Head"
-            className="w-40 h-40 object-contain pointer-events-none select-none animate-bounce-slow"
+            className="w-50 h-50 object-contain pointer-events-none select-none animate-bounce-slow"
             style={{
               filter: "drop-shadow(0 12px 24px rgba(0,0,0,0.22))",
               paddingBottom: "20px",
