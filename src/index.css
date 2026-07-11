@@ -38,6 +38,7 @@
 
   /* Themes Setup */
   --mono-accent: #27272a;
+  --mono-accent-contrast: #ffffff;
   --mono-accent-muted: rgba(39, 39, 42, 0.1);
   --mono-widget-tint: rgba(0, 0, 0, 0.05);
   --mono-selection: rgba(0, 0, 0, 0.1);
@@ -50,6 +51,7 @@
   --default-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   
   --theme-accent: var(--mono-accent);
+  --theme-accent-contrast: var(--mono-accent-contrast);
   --theme-accent-muted: var(--mono-accent-muted);
   --theme-widget-tint: var(--mono-widget-tint);
   --theme-wallpaper: none;
@@ -96,6 +98,7 @@
 
   /* Themes Setup Dark */
   --mono-accent: #ffffff;
+  --mono-accent-contrast: #000000;
   --mono-accent-muted: rgba(255, 255, 255, 0.15);
   --mono-widget-tint: rgba(255, 255, 255, 0.08);
   --mono-selection: rgba(255, 255, 255, 0.2);

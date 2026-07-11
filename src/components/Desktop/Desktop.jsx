@@ -4,9 +4,10 @@ import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { GlassDock } from "../ui/liquid-glass";
 import { useDeviceType } from "../../hooks/useDeviceType";
-import { ToggleTheme } from "../ui/toggle-theme";
 import Spotlight from "../Spotlight/Spotlight";
 import ProjectsApp from "../../screens/ProjectsApp/ProjectsApp";
+import MenuBar from "../MenuBar/MenuBar";
+import { ToggleTheme } from "../ui/toggle-theme";
 
 import Window from "../Window/Window";
 import FaceWidget from "../ui/FaceWidget";
@@ -452,6 +453,7 @@ const Desktop = () => {
 
   return (
     <div className={styles.desktop}>
+      <MenuBar handleOpenApp={handleOpenApp} />
       <div
         className={styles.workspace}
         onClick={() => {
@@ -529,18 +531,20 @@ const Desktop = () => {
           <GlassDock icons={dockIcons} />
         </div>
       </div>
-      <div className={`absolute z-50 flex items-center gap-3 ${isTablet ? "top-10 right-10" : "top-6 right-6"}`}>
-        <button
-          onClick={() => window.dispatchEvent(new CustomEvent("openspotlight"))}
-          className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-zinc-200/25 dark:border-white/10 flex items-center justify-center text-[var(--theme-text-main)] hover:scale-105 transition-all duration-200 cursor-pointer shadow-md backdrop-blur-md outline-none"
-          title="Search (Ctrl + K / Cmd + Space)"
-          aria-label="Search"
-        >
-          <LucideIcons.Search size={18} strokeWidth={2.5} />
-        </button>
-        <ToggleTheme />
-      </div>
 
+      {isTablet && (
+        <div className="absolute z-50 flex items-center gap-3 top-10 right-10">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("openspotlight"))}
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-zinc-200/25 dark:border-white/10 flex items-center justify-center text-[var(--theme-text-main)] hover:scale-105 transition-all duration-200 cursor-pointer shadow-md backdrop-blur-md outline-none"
+            title="Search (Ctrl + K / Cmd + Space)"
+            aria-label="Search"
+          >
+            <LucideIcons.Search size={18} strokeWidth={2.5} />
+          </button>
+          <ToggleTheme />
+        </div>
+      )}
       <Spotlight
         onOpenApp={handleOpenApp}
         onOpenProject={(projectId) => {

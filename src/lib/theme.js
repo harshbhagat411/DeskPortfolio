@@ -7,6 +7,7 @@ export const themesMap = {
     id: "monochrome",
     name: "Monochrome",
     accent: "var(--mono-accent)",
+    accentContrast: "var(--mono-accent-contrast)",
     accentMuted: "var(--mono-accent-muted)",
     widgetTint: "var(--mono-widget-tint)",
     wallpaper: "none",
@@ -25,6 +26,7 @@ export const themesMap = {
     id: "ocean",
     name: "Ocean",
     accent: "#64C7FF",
+    accentContrast: "#000000",
     accentMuted: "rgba(100, 199, 255, 0.25)",
     widgetTint: "rgba(100, 199, 255, 0.15)",
     wallpaper: `url(${oceanBg})`,
@@ -43,6 +45,7 @@ export const themesMap = {
     id: "golden-hour",
     name: "Golden Hour",
     accent: "#F3A847",
+    accentContrast: "#000000",
     accentMuted: "rgba(243, 168, 71, 0.25)",
     widgetTint: "rgba(243, 168, 71, 0.15)",
     wallpaper: `url(${goldenHourBg})`,
@@ -61,6 +64,7 @@ export const themesMap = {
     id: "arctic-night",
     name: "Arctic Night",
     accent: "#82D9FF",
+    accentContrast: "#000000",
     accentMuted: "rgba(130, 217, 255, 0.25)",
     widgetTint: "rgba(130, 217, 255, 0.15)",
     wallpaper: `url(${arcticNightBg})`,
@@ -102,6 +106,7 @@ export const applyTheme = (themeKey, setTheme) => {
 
   const root = document.documentElement;
   root.style.setProperty("--theme-accent", currentTheme.accent);
+  root.style.setProperty("--theme-accent-contrast", currentTheme.accentContrast || "#ffffff");
   root.style.setProperty("--theme-accent-muted", currentTheme.accentMuted);
   root.style.setProperty("--theme-widget-tint", currentTheme.widgetTint);
   root.style.setProperty("--theme-wallpaper", currentTheme.wallpaper);

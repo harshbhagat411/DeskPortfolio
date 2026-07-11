@@ -32,7 +32,8 @@ const ThemeCenterApp = () => {
       name: "Monochrome",
       previewBg: "bg-slate-200 dark:bg-[#121212]",
       previewStyle: {
-        backgroundImage: "radial-gradient(circle, var(--mono-accent-muted) 1.5px, transparent 1.5px)",
+        backgroundImage:
+          "radial-gradient(circle, var(--mono-accent-muted) 1.5px, transparent 1.5px)",
         backgroundSize: "16px 16px",
       },
     },
@@ -54,7 +55,10 @@ const ThemeCenterApp = () => {
   ];
 
   return (
-    <div className="w-full h-full overflow-y-auto bg-transparent text-zinc-900 dark:text-zinc-100 select-none scroll-smooth">
+    <div
+      className="w-full h-full overflow-y-auto bg-transparent text-zinc-900 dark:text-zinc-100 select-none scroll-smooth"
+      style={{ padding: "10px" }}
+    >
       <div className="max-w-4xl mx-auto flex flex-col p-8 md:p-10">
         {/* Header Section */}
         <div className="flex justify-between items-center pb-6 mb-8 border-b border-zinc-200/50 dark:border-zinc-800/50">
@@ -67,17 +71,24 @@ const ThemeCenterApp = () => {
             </h1>
           </div>
           <div className="text-right">
+            br
             <span className="text-xs font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase block">
               CURRENT
             </span>
-            <span className="text-sm font-bold text-[var(--theme-accent)] uppercase mt-1 block">
+            <span
+              className="text-sm font-bold text-[var(--theme-accent)] uppercase mt-1 block"
+              style={{ paddingBottom: "10px" }}
+            >
               {themesMap[currentThemeKey]?.name || "Monochrome"}
             </span>
           </div>
         </div>
-
+        <br />
         {/* Horizontal Theme Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+        <div
+          className="grid grid-cols-2 md:grid-cols-2 gap-6 w-full"
+          style={{ padding: "25px" }}
+        >
           {themeList.map((theme) => {
             const isActive = theme.key === currentThemeKey;
             return (
@@ -85,7 +96,9 @@ const ThemeCenterApp = () => {
                 key={theme.key}
                 onClick={() => handleSelectTheme(theme.key)}
                 className={`group flex flex-col gap-3 cursor-pointer select-none transition-all duration-300 ${
-                  isActive ? "opacity-100 scale-[1.02]" : "opacity-70 hover:opacity-100"
+                  isActive
+                    ? "opacity-100 scale-[1.02]"
+                    : "opacity-70 hover:opacity-100"
                 }`}
               >
                 {/* Wallpaper Preview Container */}
@@ -116,7 +129,7 @@ const ThemeCenterApp = () => {
 
                   {/* Selection Checkmark Badge */}
                   {isActive && (
-                    <div className="absolute top-2.5 right-2.5 flex items-center justify-center w-6 h-6 rounded-full bg-[var(--theme-accent)] text-white shadow-md transition-all duration-300">
+                    <div className="absolute top-2.5 right-2.5 flex items-center justify-center w-6 h-6 rounded-full bg-[var(--theme-accent)] text-[var(--theme-accent-contrast,#ffffff)] shadow-md transition-all duration-300">
                       <Check size={14} strokeWidth={3} />
                     </div>
                   )}
