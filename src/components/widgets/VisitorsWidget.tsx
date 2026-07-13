@@ -64,11 +64,13 @@ const VisitorsWidget: React.FC = () => {
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      
+
       // Ease out quadratic progression
       const easeProgress = progress * (2 - progress);
-      const currentCount = Math.floor(easeProgress * (endValue - startValue) + startValue);
-      
+      const currentCount = Math.floor(
+        easeProgress * (endValue - startValue) + startValue,
+      );
+
       setDisplayCount(currentCount.toLocaleString());
 
       if (progress < 1) {
@@ -87,7 +89,7 @@ const VisitorsWidget: React.FC = () => {
       dragMomentum={false}
       className={cn(
         "absolute z-20 select-none",
-        isTablet ? "top-[705px] right-10" : "bottom-[465px] left-6"
+        isTablet ? "top-[705px] right-10" : "bottom-[465px] left-6",
       )}
       style={{ touchAction: "none" }}
     >
@@ -95,8 +97,10 @@ const VisitorsWidget: React.FC = () => {
         aspectSquare={false}
         hoverType="none" // Settle on custom styling below
         className={cn(
-          isTablet ? "w-[280px] h-[155px] rounded-[24px]" : "w-[240px] h-[130px] rounded-[20px]",
-          "pt-[20px] pl-[16px] pr-[16px] pb-[16px] transition-all duration-300 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+          isTablet
+            ? "w-[280px] h-[155px] rounded-[24px]"
+            : "w-[240px] h-[130px] rounded-[20px]",
+          "pt-[20px] pl-[16px] pr-[16px] pb-[16px] transition-all duration-300 hover:border-black/20 dark:hover:border-white/20 hover:shadow-[0_16px_40px_rgba(0,0,0,0.18)] dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.35)]",
         )}
       >
         <div
@@ -107,7 +111,7 @@ const VisitorsWidget: React.FC = () => {
           <div
             className={cn(
               "w-full pb-2.5 mb-3 border-b border-zinc-200/50 dark:border-zinc-100/25 flex justify-center",
-              isTablet && "pb-3.5 mb-4"
+              isTablet && "pb-3.5 mb-4",
             )}
             style={{ paddingBottom: "5px" }}
           >
@@ -115,7 +119,7 @@ const VisitorsWidget: React.FC = () => {
               onPointerDown={handleDragStart}
               className={cn(
                 "bg-zinc-400/60 dark:bg-zinc-600/50 rounded-full cursor-grab active:cursor-grabbing hover:bg-zinc-500 dark:hover:bg-zinc-400 transition-colors",
-                isTablet ? "w-14 h-2" : "w-10 h-1"
+                isTablet ? "w-14 h-2" : "w-10 h-1",
               )}
               style={{ marginBottom: "2px" }}
             />
@@ -123,11 +127,14 @@ const VisitorsWidget: React.FC = () => {
 
           {/* Title Row */}
           <div className="flex items-center gap-2 select-none mb-1.5">
-            <Eye size={isTablet ? 16 : 14} className="text-[var(--theme-accent)]" />
+            <Eye
+              size={isTablet ? 16 : 14}
+              className="text-[var(--theme-accent)]"
+            />
             <span
               className={cn(
                 "font-bold font-sans tracking-wider text-[var(--theme-text-muted)] uppercase",
-                isTablet ? "text-[12px]" : "text-[10px]"
+                isTablet ? "text-[12px]" : "text-[10px]",
               )}
             >
               Total Visitors
@@ -135,7 +142,7 @@ const VisitorsWidget: React.FC = () => {
           </div>
 
           {/* Counter Display */}
-          <div className="flex-1 flex items-center justify-start min-h-[40px]">
+          <div className="flex-1 flex items-center justify-start min-h-[41px]">
             {isLoading ? (
               // Pulse Loading State Skeleton
               <div className="w-2/3 h-8 bg-zinc-200/40 dark:bg-zinc-800/40 rounded-md animate-pulse" />
@@ -144,7 +151,7 @@ const VisitorsWidget: React.FC = () => {
               <span
                 className={cn(
                   "font-bold font-sans text-[var(--theme-text-main)] tracking-tight",
-                  isTablet ? "text-[38px]" : "text-[32px]"
+                  isTablet ? "text-[38px]" : "text-[32px]",
                 )}
               >
                 {displayCount}
