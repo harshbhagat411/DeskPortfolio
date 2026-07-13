@@ -17,6 +17,7 @@ import ProjectDetail from "../ProjectDetail/ProjectDetail";
 import CalendarWidget from "../widgets/CalendarWidget";
 import ThoughtsWidget from "../widgets/ThoughtsWidget";
 import ThemeWidget from "../widgets/ThemeWidget";
+import VisitorsWidget from "../widgets/VisitorsWidget";
 
 // Import App Components
 import AboutApp from "../../screens/AboutApp/AboutApp";
@@ -562,6 +563,9 @@ const Desktop = () => {
 
       {/* Theme Desktop Widget */}
       <ThemeWidget />
+
+      {/* Total Visitors Desktop Widget */}
+      <VisitorsWidget />
 
       {contextMenu && (
         <DesktopContextMenu
