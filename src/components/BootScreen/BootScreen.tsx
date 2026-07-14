@@ -212,7 +212,12 @@ export const BootScreen: React.FC = () => {
   const handleGreetingComplete = () => {
     const isLastGreeting = greetingIndex === greetings.length - 1;
     if (isLastGreeting) {
-      setInternalStage("terminal");
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        setInternalStage("progress");
+      } else {
+        setInternalStage("terminal");
+      }
     } else {
       setTimeout(() => {
         setGreetingIndex((prev) => prev + 1);

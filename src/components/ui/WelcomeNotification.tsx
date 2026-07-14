@@ -9,6 +9,10 @@ export const WelcomeNotification: React.FC = () => {
 
   useEffect(() => {
     if (bootStatus === "ready") {
+      // Don't show welcome notification on mobile screens (viewport width < 768px)
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) return;
+
       // Delay showing the notification slightly after the reveal phase finishes
       const showTimer = setTimeout(() => {
         setIsVisible(true);
