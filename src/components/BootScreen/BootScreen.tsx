@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, animate } from "framer-motion";
 import { useBoot } from "../../context/BootContext";
+import {
+  getGreeting,
+  getGreetingByLanguage,
+  generateGreetingSequence,
+} from "../../lib/getGreeting";
 
 const GREETINGS = [
   "Hello",
@@ -86,6 +91,7 @@ export const BootScreen: React.FC = () => {
   >("black");
 
   // Greeting State
+  const [greetings, setGreetings] = useState<string[]>(GREETINGS);
   const [greetingIndex, setGreetingIndex] = useState(0);
 
   // Terminal State
@@ -96,6 +102,73 @@ export const BootScreen: React.FC = () => {
   // Progress State
   const [progress, setProgress] = useState(0);
   const [launchingDesktopVisible, setLaunchingDesktopVisible] = useState(false);
+
+  // Fetch geolocation and cache the greeting sequence
+  useEffect(() => {
+    const cached = sessionStorage.getItem("portfolio_cached_greeting");
+    console.log("[Boot Geolocation Debug] Checking cache:", { sessionStorageCachedGreeting: cached });
+    if (cached) {
+      console.log("[Boot Geolocation Debug] Cache hit! Using cached greeting:", cached);
+      setGreetings(generateGreetingSequence(cached, GREETINGS));
+      return;
+    }
+
+    let resolved = false;
+
+    const fallbackToBrowserLanguage = (reason: string) => {
+      if (resolved) return;
+      resolved = true;
+      const fallback = getGreetingByLanguage(navigator.language || "");
+      console.log(`[Boot Geolocation Debug] Falling back via: ${reason}. Selected greeting: "${fallback}" (Browser locale: ${navigator.language})`);
+      sessionStorage.setItem("portfolio_cached_greeting", fallback);
+      setGreetings(generateGreetingSequence(fallback, GREETINGS));
+    };
+
+    // Fallback if lookup takes longer than 1500ms (buffer for slower edge round-trips)
+    const timeoutId = setTimeout(() => {
+      fallbackToBrowserLanguage("Timeout (1500ms exceeded)");
+    }, 1500);
+
+    console.log("[Boot Geolocation Debug] Starting Vercel Geolocation fetch request...");
+
+    fetch("/api/geolocation")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP status error: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
+        if (resolved) {
+          console.log("[Boot Geolocation Debug] API completed late (timeout had fired). Data returned:", data);
+          return;
+        }
+        clearTimeout(timeoutId);
+        resolved = true;
+
+        const greeting = getGreeting(data.country, data.region);
+        const finalGreeting = greeting || getGreetingByLanguage(navigator.language || "");
+
+        console.log("[Boot Geolocation Debug] Lookup completed successfully:", {
+          environment: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "Localhost" : "Vercel Deployment",
+          detectedCountry: data.country || "(not detected)",
+          detectedRegion: data.region || "(not detected)",
+          detectedCity: data.city || "(not detected)",
+          mappedGreetingByLocation: greeting || "(none)",
+          finalSelectedGreeting: finalGreeting,
+          methodUsed: greeting ? "Vercel Geolocation" : "Browser Language Locale fallback"
+        });
+
+        sessionStorage.setItem("portfolio_cached_greeting", finalGreeting);
+        setGreetings(generateGreetingSequence(finalGreeting, GREETINGS));
+      })
+      .catch((err) => {
+        console.warn("[Boot Geolocation Debug] Geolocation API call failed:", err);
+        fallbackToBrowserLanguage("API/Network Error");
+      });
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // 1. Skip handlers (Keys, Clicks)
   useEffect(() => {
@@ -137,7 +210,7 @@ export const BootScreen: React.FC = () => {
 
   // 3. Greetings handler
   const handleGreetingComplete = () => {
-    const isLastGreeting = greetingIndex === GREETINGS.length - 1;
+    const isLastGreeting = greetingIndex === greetings.length - 1;
     if (isLastGreeting) {
       setInternalStage("terminal");
     } else {
@@ -226,9 +299,9 @@ export const BootScreen: React.FC = () => {
       {internalStage === "greetings" && (
         <div className="absolute inset-0 flex items-center justify-center">
           <GreetingItem
-            text={GREETINGS[greetingIndex]}
+            text={greetings[greetingIndex]}
             onComplete={handleGreetingComplete}
-            isLast={greetingIndex === GREETINGS.length - 1}
+            isLast={greetingIndex === greetings.length - 1}
           />
         </div>
       )}

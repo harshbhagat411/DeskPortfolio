@@ -25,6 +25,19 @@ if (!redis) {
   );
 }
 
+// GET /api/geolocation - Geolocation endpoint for Vercel headers
+app.get("/api/geolocation", (req, res) => {
+  const country = req.headers["x-vercel-ip-country"] || "";
+  const region = req.headers["x-vercel-ip-country-region"] || "";
+  const city = req.headers["x-vercel-ip-city"] || "";
+
+  return res.status(200).json({
+    country: typeof country === "string" ? country.toUpperCase() : "",
+    region: typeof region === "string" ? region.toUpperCase() : "",
+    city: typeof city === "string" ? city : "",
+  });
+});
+
 // GET /api/visitors - Unique visitor counter endpoint
 app.get("/api/visitors", async (req, res) => {
   if (!redis) {
