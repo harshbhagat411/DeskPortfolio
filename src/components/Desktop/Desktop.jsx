@@ -4,6 +4,7 @@ import * as LucideIcons from "lucide-react";
 import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { GlassDock } from "../ui/liquid-glass";
 import { useDeviceType } from "../../hooks/useDeviceType";
+import { useBoot } from "../../context/BootContext";
 import Spotlight from "../Spotlight/Spotlight";
 import ProjectsApp from "../../screens/ProjectsApp/ProjectsApp";
 import MenuBar from "../MenuBar/MenuBar";
@@ -164,6 +165,7 @@ const appsConfig = [
   },
 ];
 const Desktop = () => {
+  const { bootStatus } = useBoot();
   const deviceType = useDeviceType();
   const isTablet = deviceType === "tablet";
 
@@ -454,7 +456,18 @@ const Desktop = () => {
 
   return (
     <div className={styles.desktop}>
-      <MenuBar handleOpenApp={handleOpenApp} />
+      <motion.div
+        initial={bootStatus === "ready" ? { y: 0, opacity: 1 } : { y: -50, opacity: 0 }}
+        animate={bootStatus === "booting" ? { y: -50, opacity: 0 } : { y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          delay: bootStatus === "ready" ? 0 : 1.0
+        }}
+        className="w-full z-[100]"
+      >
+        <MenuBar handleOpenApp={handleOpenApp} />
+      </motion.div>
       <div
         className={styles.workspace}
         onClick={() => {
@@ -476,18 +489,29 @@ const Desktop = () => {
           className="absolute cursor-grab active:cursor-grabbing z-10"
           style={{ touchAction: "none" }}
         >
-          <DesktopIcon
-            id="designs"
-            title="Designs"
-            isFolder={true}
-            isSelected={selectedProjectId === "designs"}
-            onClick={() => setSelectedProjectId("designs")}
-            onDoubleClick={() => handleOpenApp("designs")}
-          />
+          <motion.div
+            initial={bootStatus === "ready" ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+            animate={bootStatus === "booting" ? { scale: 0, opacity: 0 } : { scale: 1, opacity: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 140,
+              damping: 15,
+              delay: bootStatus === "ready" ? 0 : 2.0
+            }}
+          >
+            <DesktopIcon
+              id="designs"
+              title="Designs"
+              isFolder={true}
+              isSelected={selectedProjectId === "designs"}
+              onClick={() => setSelectedProjectId("designs")}
+              onDoubleClick={() => handleOpenApp("designs")}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Desktop Icons for standalone projects (staggered & draggable) */}
-        {projectPositions.map((pos) => {
+        {projectPositions.map((pos, index) => {
           const project = projects.find((p) => p.id === pos.id);
           if (!project) return null;
 
@@ -500,12 +524,23 @@ const Desktop = () => {
               className="absolute cursor-grab active:cursor-grabbing z-10"
               style={{ touchAction: "none" }}
             >
-              <DesktopIcon
-                project={project}
-                isSelected={selectedProjectId === project.id}
-                onClick={() => setSelectedProjectId(project.id)}
-                onDoubleClick={() => handleOpenProjectApp(project)}
-              />
+              <motion.div
+                initial={bootStatus === "ready" ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+                animate={bootStatus === "booting" ? { scale: 0, opacity: 0 } : { scale: 1, opacity: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 140,
+                  damping: 15,
+                  delay: bootStatus === "ready" ? 0 : 2.0 + (index + 1) * 0.15
+                }}
+              >
+                <DesktopIcon
+                  project={project}
+                  isSelected={selectedProjectId === project.id}
+                  onClick={() => setSelectedProjectId(project.id)}
+                  onDoubleClick={() => handleOpenProjectApp(project)}
+                />
+              </motion.div>
             </motion.div>
           );
         })}
@@ -527,11 +562,20 @@ const Desktop = () => {
       {/* Draggable Face Widget in Bottom Left Corner */}
       <FaceWidget onClick={() => handleOpenApp("about")} />
 
-      <div className={`absolute inset-x-0 w-full flex justify-center z-50 pointer-events-none ${isTablet ? "bottom-12" : "bottom-6"}`}>
+      <motion.div
+        className={`absolute inset-x-0 w-full flex justify-center z-50 pointer-events-none ${isTablet ? "bottom-12" : "bottom-6"}`}
+        initial={bootStatus === "ready" ? { y: 0, opacity: 1 } : { y: 80, opacity: 0 }}
+        animate={bootStatus === "booting" ? { y: 80, opacity: 0 } : { y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.7,
+          ease: [0.16, 1, 0.3, 1],
+          delay: bootStatus === "ready" ? 0 : 1.5
+        }}
+      >
         <div className="pointer-events-auto">
           <GlassDock icons={dockIcons} />
         </div>
-      </div>
+      </motion.div>
 
       {isTablet && (
         <div className="absolute z-50 flex items-center gap-3 top-10 right-10">

@@ -1,5 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
+
+/* Boot Animation Utility to hide cursor */
+.boot-cursor-none, .boot-cursor-none * {
+  cursor: none !important;
+}
+
 
 @custom-variant dark (&:is(.dark *));
 

@@ -4,9 +4,10 @@ import { thoughts } from "../../data/thoughts";
 import { cn } from "../../lib/utils";
 import GlassCard from "../ui/GlassCard";
 import { useDeviceType } from "../../hooks/useDeviceType";
-
+import { useBoot } from "../../context/BootContext";
 
 const ThoughtsWidget: React.FC = () => {
+  const { bootStatus } = useBoot();
   const dragControls = useDragControls();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -40,6 +41,13 @@ const ThoughtsWidget: React.FC = () => {
       style={{ touchAction: "none" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      initial={bootStatus === "ready" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      animate={bootStatus === "booting" ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+        delay: bootStatus === "ready" ? 0 : 3.6
+      }}
     >
       <GlassCard
         aspectSquare={false}

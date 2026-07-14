@@ -8,8 +8,10 @@ import { useDeviceType } from "../../hooks/useDeviceType";
 import oceanBg from "../../wallpapers/ocean.jpg";
 import goldenHourBg from "../../wallpapers/golden-hour.jpg";
 import arcticNightBg from "../../wallpapers/arctic-night.jpg";
+import { useBoot } from "../../context/BootContext";
 
 const ThemeWidget: React.FC = () => {
+  const { bootStatus } = useBoot();
   const dragControls = useDragControls();
   const [currentThemeKey, setCurrentThemeKey] = useState(getSavedTheme());
   const { setTheme } = useTheme();
@@ -56,7 +58,7 @@ const ThemeWidget: React.FC = () => {
     },
     {
       key: "golden-hour",
-      name: "Golden H",
+      name: "Gold Hr",
       previewImage: goldenHourBg,
     },
     {
@@ -77,6 +79,13 @@ const ThemeWidget: React.FC = () => {
       dragMomentum={false}
       className={cn("absolute left-6 z-20 select-none", isTablet ? "bottom-[355px]" : "bottom-[295px]")}
       style={{ touchAction: "none" }}
+      initial={bootStatus === "ready" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      animate={bootStatus === "booting" ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+        delay: bootStatus === "ready" ? 0 : 4.0
+      }}
     >
       <GlassCard
         aspectSquare={false}

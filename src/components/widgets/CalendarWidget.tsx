@@ -3,8 +3,10 @@ import { motion, useDragControls } from "framer-motion";
 import { cn } from "../../lib/utils";
 import GlassCard from "../ui/GlassCard";
 import { useDeviceType } from "../../hooks/useDeviceType";
+import { useBoot } from "../../context/BootContext";
 
 const CalendarWidget: React.FC = () => {
+  const { bootStatus } = useBoot();
   const dragControls = useDragControls();
 
   const handleDragStart = (e: React.PointerEvent) => {
@@ -64,6 +66,13 @@ const CalendarWidget: React.FC = () => {
       dragMomentum={false}
       className={cn("absolute top-24 z-30 select-none", isTablet ? "right-10" : "right-6")}
       style={{ touchAction: "none" }}
+      initial={bootStatus === "ready" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      animate={bootStatus === "booting" ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+        delay: bootStatus === "ready" ? 0 : 3.2
+      }}
     >
       <GlassCard
         aspectSquare={false}

@@ -4,8 +4,10 @@ import { Eye } from "lucide-react";
 import { cn } from "../../lib/utils";
 import GlassCard from "../ui/GlassCard";
 import { useDeviceType } from "../../hooks/useDeviceType";
+import { useBoot } from "../../context/BootContext";
 
 const VisitorsWidget: React.FC = () => {
+  const { bootStatus } = useBoot();
   const dragControls = useDragControls();
   const [visitorCount, setVisitorCount] = useState<number | null>(null);
   const [displayCount, setDisplayCount] = useState<string>("--");
@@ -92,6 +94,13 @@ const VisitorsWidget: React.FC = () => {
         isTablet ? "top-[705px] right-10" : "bottom-[465px] left-6",
       )}
       style={{ touchAction: "none" }}
+      initial={bootStatus === "ready" ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+      animate={bootStatus === "booting" ? { opacity: 0, scale: 0.95 } : { opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+        delay: bootStatus === "ready" ? 0 : 4.4
+      }}
     >
       <GlassCard
         aspectSquare={false}
