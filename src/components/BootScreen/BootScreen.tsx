@@ -214,7 +214,7 @@ export const BootScreen: React.FC = () => {
     if (isLastGreeting) {
       const isMobile = window.innerWidth < 768;
       if (isMobile) {
-        setInternalStage("progress");
+        startRevealPhase();
       } else {
         setInternalStage("terminal");
       }
