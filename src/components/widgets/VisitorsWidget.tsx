@@ -113,7 +113,7 @@ const VisitorsWidget: React.FC = () => {
               "w-full pb-2.5 mb-3 border-b border-zinc-200/50 dark:border-zinc-100/25 flex justify-center",
               isTablet && "pb-3.5 mb-4",
             )}
-            style={{ paddingBottom: "5px" }}
+            style={{ paddingBottom: "5px", paddingTop: "5px" }}
           >
             <div
               onPointerDown={handleDragStart}
@@ -121,12 +121,15 @@ const VisitorsWidget: React.FC = () => {
                 "bg-zinc-400/60 dark:bg-zinc-600/50 rounded-full cursor-grab active:cursor-grabbing hover:bg-zinc-500 dark:hover:bg-zinc-400 transition-colors",
                 isTablet ? "w-14 h-2" : "w-10 h-1",
               )}
-              style={{ marginBottom: "2px" }}
+              style={{ marginBottom: "5 px" }}
             />
           </div>
 
           {/* Title Row */}
-          <div className="flex items-center gap-2 select-none mb-1.5">
+          <div
+            className="flex items-center gap-2 select-none mb-1.5"
+            style={{ paddingTop: "15px" }}
+          >
             <Eye
               size={isTablet ? 16 : 14}
               className="text-[var(--theme-accent)]"
