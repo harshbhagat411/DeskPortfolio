@@ -12,27 +12,24 @@ interface BootContextType {
 const BootContext = createContext<BootContextType | undefined>(undefined);
 
 export const BootProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [bootStatus, setBootStatus] = useState<BootStatus>("booting");
-  const [isSkipped, setIsSkipped] = useState(false);
+  const [bootStatus, setBootStatus] = useState<BootStatus>(() => {
+    if (typeof window === "undefined") return "booting";
 
-  useEffect(() => {
     // Check prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Check localStorage
-    const hasBootedBefore = localStorage.getItem("portfolioBootPlayed") === "true";
+    // Check sessionStorage
+    const hasBootedBefore = sessionStorage.getItem("portfolioBootPlayed") === "true";
 
-    if (prefersReducedMotion || hasBootedBefore) {
-      setBootStatus("ready");
-    } else {
-      setBootStatus("booting");
-    }
-  }, []);
+    return (prefersReducedMotion || hasBootedBefore) ? "ready" : "booting";
+  });
+
+  const [isSkipped, setIsSkipped] = useState(false);
 
   const skipBoot = () => {
     setIsSkipped(true);
     setBootStatus("ready");
-    localStorage.setItem("portfolioBootPlayed", "true");
+    sessionStorage.setItem("portfolioBootPlayed", "true");
   };
 
   const startRevealPhase = () => {
@@ -46,7 +43,7 @@ export const BootProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (bootStatus === "revealing") {
       const timer = setTimeout(() => {
         setBootStatus("ready");
-        localStorage.setItem("portfolioBootPlayed", "true");
+        sessionStorage.setItem("portfolioBootPlayed", "true");
       }, 5000); // Reveal phase takes 5 seconds to complete
 
       return () => clearTimeout(timer);
