@@ -23,7 +23,7 @@
 }
 
 .containerFolder {
-  width: 130px;
+  width: 140px;
 }
 
 .containerFile {
@@ -46,8 +46,8 @@
 }
 
 .folderIconWrapper {
-  width: 90px;
-  height: 90px;
+  width: 98px;
+  height: 98px;
   position: relative;
   pointer-events: none;
 }
@@ -124,7 +124,7 @@
 }
 
 :global(.tablet-version) .containerFolder {
-  width: 140px !important; /* 8% increase from 130px */
+  width: 150px !important; 
 }
 
 :global(.tablet-version) .containerFile {
@@ -132,8 +132,8 @@
 }
 
 :global(.tablet-version) .folderIconWrapper {
-  width: 97px !important; /* 8% increase from 90px */
-  height: 97px !important;
+  width: 106px !important;
+  height: 106px !important;
 }
 
 :global(.tablet-version) .fileIconWrapper {
